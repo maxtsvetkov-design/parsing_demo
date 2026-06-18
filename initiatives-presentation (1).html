@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Initiatives – nabat.ai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fafaf8 0%, #f5f1ed 50%, #f0e8e0 100%);
+            color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        /* SVG Background Texture */
+        .texture-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Procedural grain overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" /></filter><rect width="100" height="100" fill="%231a4d3e" filter="url(%23noise)" opacity="0.02"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Main Slide Container */
+        .slide {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 72px 80px;
+            background: transparent;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        /* Decorative top accent line */
+        .accent-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1a4d3e 0%, #c9a876 50%, transparent 100%);
+        }
+
+        /* Header Section */
+        .slide-header {
+            margin-bottom: 64px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .slide-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #c9a876;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .slide-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            color: #1a4d3e;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #1a4d3e 0%, #2d7a6d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.6;
+            letter-spacing: 0.3px;
+            color: #5a5a5a;
+            max-width: 600px;
+        }
+
+        /* Three-Column Grid */
+        .initiatives-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            flex: 1;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Column Container */
+        .initiative-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        /* Column Headers - Fancy Design */
+        .column-header {
+            background: linear-gradient(135deg, #1a4d3e 0%, #2d7a6d 100%);
+            color: #ffffff;
+            padding: 28px 24px;
+            border-radius: 20px 20px 0 0;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: 0.5px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(26, 77, 62, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .column-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        /* Initiative Cards */
+        .initiative-card {
+            background: rgba(232, 243, 240, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(201, 168, 118, 0.2);
+            border-top: none;
+            padding: 36px 28px;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #1a1a1a;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .initiative-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(201, 168, 118, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .initiative-card:hover::before {
+            left: 100%;
+        }
+
+        .initiative-card:first-of-type {
+            border-radius: 0 0 20px 20px;
+        }
+
+        .initiative-card:not(:first-of-type) {
+            border-top: 1px solid rgba(201, 168, 118, 0.15);
+        }
+
+        .initiative-card:last-of-type {
+            border-radius: 0 0 20px 20px;
+        }
+
+        .initiative-card:hover {
+            background: rgba(232, 243, 240, 0.95);
+            border-color: rgba(201, 168, 118, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(45, 122, 109, 0.15);
+        }
+
+        /* Initiative Title Cards (Left Column) */
+        .initiative-title {
+            background: linear-gradient(135deg, #1a4d3e 0%, #2d7a6d 100%);
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            letter-spacing: 0.3px;
+            padding: 36px 28px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .initiative-title:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(135deg, #2d7a6d 0%, #1a4d3e 100%);
+        }
+
+        /* Metrics Display */
+        .evidence-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .metric-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #c9a876 0%, #b8956f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 28px rgba(201, 168, 118, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .metric-circle::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent);
+            pointer-events: none;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1a1a;
+            position: relative;
+            z-index: 2;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #5a5a5a;
+            margin-top: -4px;
+        }
+
+        .metric-description {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a4d3e;
+            margin-top: 8px;
+            line-height: 1.4;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Status Section */
+        .status-indicator {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a4d3e, #2d7a6d);
+            box-shadow: 0 0 20px rgba(26, 77, 62, 0.4);
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(26, 77, 62, 0.4), 0 0 0 0 rgba(26, 77, 62, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(26, 77, 62, 0.4), 0 0 0 12px rgba(26, 77, 62, 0);
+            }
+        }
+
+        .status-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #5a5a5a;
+        }
+
+        /* Footer */
+        .slide-footer {
+            text-align: center;
+            padding-top: 48px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #c9a876;
+            position: relative;
+            z-index: 3;
+            opacity: 0.85;
+        }
+
+        .footer-icon {
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            background-color: #c9a876;
+            border-radius: 50%;
+            margin: 0 8px;
+            vertical-align: middle;
+        }
+
+        /* Accent Graphics */
+        .accent-corner {
+            position: absolute;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .accent-top-right {
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #1a4d3e, transparent);
+            border-radius: 50%;
+        }
+
+        .accent-bottom-left {
+            bottom: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #c9a876, transparent);
+            border-radius: 50%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .slide {
+                padding: 60px 60px;
+            }
+
+            .slide-title {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .initiatives-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slide {
+                padding: 48px 40px;
+            }
+
+            .slide-title {
+                font-size: 40px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: #ffffff;
+            }
+
+            .grain-overlay,
+            .texture-bg,
+            .accent-corner {
+                display: none;
+            }
+
+            .slide {
+                background: #ffffff;
+                height: auto;
+            }
+
+            .initiative-card:hover {
+                background: rgba(232, 243, 240, 0.7);
+                transform: none;
+            }
+
+            .initiative-title:hover {
+                transform: none;
+            }
+
+            .status-dot {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Texture -->
+    <svg class="texture-bg" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <pattern id="topographic" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+                <path d="M 100 20 Q 150 50 150 100 Q 150 150 100 180 Q 50 150 50 100 Q 50 50 100 20" 
+                      fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                <path d="M 100 40 Q 140 60 140 100 Q 140 140 100 160 Q 60 140 60 100 Q 60 60 100 40" 
+                      fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+            </pattern>
+        </defs>
+        <rect width="1000" height="1000" fill="url(#topographic)"/>
+    </svg>
+
+    <div class="grain-overlay"></div>
+
+    <div class="slide">
+        <div class="accent-line"></div>
+
+        <!-- Accent Circles -->
+        <div class="accent-corner accent-top-right"></div>
+        <div class="accent-corner accent-bottom-left"></div>
+
+        <!-- Header -->
+        <div class="slide-header">
+            <div class="slide-eyebrow">Strategic Initiatives</div>
+            <h1 class="slide-title">Core Programs & Impact Drivers</h1>
+            <p class="slide-subtitle">Transformative initiatives powering operational excellence and sustainable value creation across our platform</p>
+        </div>
+
+        <!-- Three-Column Grid -->
+        <div class="initiatives-grid">
+            <!-- Initiative Column -->
+            <div class="initiative-column">
+                <div class="column-header">Initiative</div>
+                <div class="initiative-card initiative-title">Mangrove Automation</div>
+                <div class="initiative-card initiative-title">Recurring Monetization</div>
+                <div class="initiative-card initiative-title">Carbon DMRV</div>
+            </div>
+
+            <!-- What it will enable Column -->
+            <div class="initiative-column">
+                <div class="column-header">What It Enables</div>
+                <div class="initiative-card">
+                    <div class="evidence-content">
+                        <div class="metric-circle">
+                            <div class="metric-value">98%</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Classification Accuracy</div>
+                            <div class="metric-description">75% workflow automation</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="initiative-card">
+                    <div class="evidence-content">
+                        <div class="metric-circle">
+                            <div class="metric-value">$2.4M</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Annual Revenue</div>
+                            <div class="metric-description">3 revenue streams</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="initiative-card">
+                    <div class="evidence-content">
+                        <div class="metric-circle">
+                            <div class="metric-value">240K</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Hectares Tracked</div>
+                            <div class="metric-description">ISO compliance ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Column -->
+            <div class="initiative-column">
+                <div class="column-header">Status</div>
+                <div class="initiative-card">
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <div class="status-label">Active</div>
+                    </div>
+                </div>
+                <div class="initiative-card">
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <div class="status-label">Active</div>
+                    </div>
+                </div>
+                <div class="initiative-card">
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <div class="status-label">Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="slide-footer">
+            <span>Document Classified as: Confidential</span>
+            <span class="footer-icon"></span>
+            <span>nabat.ai Platform</span>
+        </div>
+    </div>
+</body>
+</html>
