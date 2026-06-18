@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipeline Overview – nabat.ai</title>
+    <title>Progress Tracker – nabat.ai</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -75,7 +75,7 @@
 
         /* Header Section */
         .slide-header {
-            margin-bottom: 56px;
+            margin-bottom: 48px;
             position: relative;
             z-index: 3;
         }
@@ -113,199 +113,265 @@
             max-width: 700px;
         }
 
-        /* Pipeline Sections Container */
-        .pipeline-sections {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
+        /* Tracker Container */
+        .tracker-wrapper {
             position: relative;
             z-index: 3;
             margin-bottom: 48px;
         }
 
-        /* Section Container */
-        .pipeline-section {
-            display: flex;
-            gap: 32px;
-            align-items: flex-start;
-        }
-
-        /* Section Sidebar */
-        .section-sidebar {
-            width: 160px;
-            flex-shrink: 0;
-        }
-
-        .section-badge {
-            background: linear-gradient(135deg, rgba(26, 77, 62, 0.08), rgba(45, 122, 109, 0.08));
-            border: 1px solid rgba(26, 77, 62, 0.15);
-            border-radius: 16px;
-            padding: 28px 20px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .section-status {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a4d3e;
-            line-height: 1.4;
-            margin-bottom: 8px;
-        }
-
-        .section-value {
-            font-size: 28px;
-            font-weight: 800;
-            color: #c9a876;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* Section - Signed/Awarded (Light Blue) */
-        .section-signed {
-            background: rgba(173, 216, 230, 0.3);
-            border: 1px solid rgba(26, 77, 62, 0.1);
-            border-radius: 20px;
-            padding: 32px;
-            backdrop-filter: blur(10px);
-        }
-
-        .section-signed .table-header-cell {
-            background: linear-gradient(135deg, rgba(26, 77, 62, 0.7), rgba(45, 122, 109, 0.7));
-        }
-
-        /* Section - Proposals (Light Green) */
-        .section-proposals {
-            background: rgba(144, 238, 144, 0.25);
-            border: 1px solid rgba(26, 77, 62, 0.1);
-            border-radius: 20px;
-            padding: 32px;
-            backdrop-filter: blur(10px);
-        }
-
-        .section-proposals .table-header-cell {
-            background: linear-gradient(135deg, rgba(26, 77, 62, 0.7), rgba(45, 122, 109, 0.7));
-        }
-
-        /* Section - Hot Leads (Purple) */
-        .section-leads {
-            background: rgba(147, 51, 234, 0.15);
-            border: 1px solid rgba(147, 51, 234, 0.2);
-            border-radius: 20px;
-            padding: 32px;
-            backdrop-filter: blur(10px);
-        }
-
-        .section-leads .table-header-cell {
-            background: linear-gradient(135deg, rgba(115, 51, 150, 0.8), rgba(147, 51, 234, 0.8));
-        }
-
-        /* Content Wrapper */
-        .section-content {
-            flex: 1;
-        }
-
-        /* Table Container */
-        .table-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            overflow: hidden;
-            border-radius: 16px;
-        }
-
-        /* Table Row */
-        .table-row {
+        /* Column Headers */
+        .tracker-headers {
             display: grid;
-            grid-template-columns: 100px 140px 100px 280px 120px 140px;
-            gap: 0;
-            background: rgba(255, 255, 255, 0.5);
-            border-bottom: 1px solid rgba(26, 77, 62, 0.08);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(8px);
+            grid-template-columns: 280px repeat(6, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
-        .section-leads .table-row {
-            grid-template-columns: 100px 140px 100px 100px 140px 100px;
-        }
-
-        .table-row:first-child {
-            background: transparent;
-        }
-
-        .table-row:hover {
-            background: rgba(201, 168, 118, 0.08);
-            transform: translateX(4px);
-        }
-
-        .table-row:first-child:hover {
-            background: transparent;
-            transform: none;
-        }
-
-        /* Table Cell */
-        .table-cell {
-            padding: 20px 16px;
+        .column-header {
+            background: linear-gradient(135deg, #1a4d3e 0%, #2d7a6d 100%);
+            color: #ffffff;
+            padding: 24px 20px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            font-weight: 500;
-            color: #1a1a1a;
-            text-align: center;
-            white-space: nowrap;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(26, 77, 62, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
             overflow: hidden;
-            text-overflow: ellipsis;
+        }
+
+        .column-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        .header-icon {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Program Row */
+        .program-row {
+            display: grid;
+            grid-template-columns: 280px repeat(6, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+            align-items: stretch;
+        }
+
+        /* Program Info Cell (Left) */
+        .program-info {
+            background: rgba(232, 243, 240, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(26, 77, 62, 0.15);
+            border-radius: 14px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .program-info:hover {
+            background: rgba(232, 243, 240, 0.85);
+            border-color: rgba(26, 77, 62, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(45, 122, 109, 0.15);
+        }
+
+        .program-code {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #c9a876;
+            text-transform: uppercase;
+        }
+
+        .program-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a4d3e;
+            line-height: 1.3;
+        }
+
+        .program-timeline {
+            font-size: 12px;
+            font-weight: 500;
+            color: #5a5a5a;
+            font-style: italic;
+        }
+
+        .program-poc {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 4px;
+        }
+
+        /* Status Cell */
+        .status-cell {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(26, 77, 62, 0.08);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-cell::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(201, 168, 118, 0.08), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .status-cell:hover::before {
+            left: 100%;
+        }
+
+        .status-cell:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(26, 77, 62, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* Status Indicator Dot */
+        .status-indicator {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Status Colors */
+        .status-on-plan {
+            background: linear-gradient(135deg, #2db84f 0%, #1fa838 100%);
+        }
+
+        .status-at-risk {
+            background: linear-gradient(135deg, #ffd700 0%, #ffcc00 100%);
+            color: #1a1a1a;
+        }
+
+        .status-intervention {
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+        }
+
+        /* Updates Cell */
+        .updates-cell {
+            background: linear-gradient(135deg, rgba(201, 168, 118, 0.15), rgba(185, 149, 111, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(201, 168, 118, 0.2);
+            border-radius: 14px;
+            padding: 24px;
+            grid-column: 2 / -1;
+            margin-bottom: 16px;
+        }
+
+        .updates-cell:last-child {
+            margin-bottom: 0;
+        }
+
+        .updates-title {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #1a4d3e;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .updates-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .updates-item {
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #1a1a1a;
+            padding-left: 20px;
             position: relative;
         }
 
-        /* Header Cell */
-        .table-header-cell {
-            background: linear-gradient(135deg, rgba(26, 77, 62, 0.7), rgba(45, 122, 109, 0.7));
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            padding: 18px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .updates-item::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: #c9a876;
+            font-size: 8px;
+            font-weight: 700;
         }
 
-        .table-cell:not(.table-header-cell) {
-            border-right: 1px solid rgba(26, 77, 62, 0.05);
-        }
-
-        .table-cell:last-child {
-            border-right: none;
-        }
-
-        /* Placeholder Content Styles */
-        .placeholder-logo {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #c9a876, #b8956f);
-            border-radius: 8px;
+        /* Legend */
+        .legend-wrapper {
             display: flex;
+            gap: 48px;
+            margin-top: 48px;
+            padding: 32px;
+            background: rgba(232, 243, 240, 0.4);
+            border: 1px solid rgba(26, 77, 62, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 3;
+        }
+
+        .legend-item {
+            display: flex;
+            gap: 12px;
             align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 700;
-            color: #ffffff;
-            text-transform: uppercase;
         }
 
-        .placeholder-flag {
-            font-size: 20px;
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
-        /* Metric Highlighting */
-        .metric-highlight {
-            font-weight: 700;
-            color: #1a4d3e;
-        }
-
-        .metric-percentage {
-            font-weight: 700;
-            color: #2d7a6d;
+        .legend-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
         }
 
         /* Footer */
@@ -349,9 +415,9 @@
             border-radius: 50%;
         }
 
-        .accent-bottom-right {
+        .accent-bottom-left {
             bottom: -150px;
-            right: -150px;
+            left: -150px;
             width: 500px;
             height: 500px;
             background: radial-gradient(circle, #c9a876, transparent);
@@ -359,21 +425,20 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 1400px) {
+        @media (max-width: 1600px) {
+            .tracker-headers,
+            .program-row {
+                grid-template-columns: 240px repeat(6, 1fr);
+                gap: 12px;
+            }
+
             .slide {
                 padding: 60px 60px;
             }
 
-            .slide-title {
-                font-size: 48px;
-            }
-
-            .table-row {
-                grid-template-columns: 90px 130px 90px 250px 110px 130px;
-            }
-
-            .section-leads .table-row {
-                grid-template-columns: 90px 130px 90px 90px 130px 90px;
+            .column-header {
+                font-size: 12px;
+                padding: 20px 16px;
             }
         }
 
@@ -382,33 +447,20 @@
                 padding: 48px 40px;
             }
 
-            .slide-title {
-                font-size: 40px;
+            .tracker-headers,
+            .program-row {
+                grid-template-columns: 1fr;
             }
 
-            .pipeline-section {
+            .updates-cell {
+                grid-column: 1;
+                margin-top: 12px;
+                margin-bottom: 24px;
+            }
+
+            .legend-wrapper {
                 flex-direction: column;
-                gap: 20px;
-            }
-
-            .section-sidebar {
-                width: 100%;
-            }
-
-            .section-badge {
-                display: flex;
-                gap: 24px;
-                text-align: left;
-                padding: 20px 24px;
-            }
-
-            .table-row {
-                grid-template-columns: repeat(6, 1fr);
-                font-size: 12px;
-            }
-
-            .section-leads .table-row {
-                grid-template-columns: repeat(6, 1fr);
+                gap: 16px;
             }
         }
 
@@ -429,8 +481,9 @@
                 min-height: auto;
             }
 
-            .table-row:hover {
-                background: rgba(255, 255, 255, 0.5);
+            .program-info:hover,
+            .status-cell:hover {
+                background: rgba(232, 243, 240, 0.6);
                 transform: none;
             }
         }
@@ -457,173 +510,186 @@
 
         <!-- Accent Circles -->
         <div class="accent-corner accent-top-right"></div>
-        <div class="accent-corner accent-bottom-right"></div>
+        <div class="accent-corner accent-bottom-left"></div>
 
         <!-- Header -->
         <div class="slide-header">
-            <div class="slide-eyebrow">Pipeline Overview</div>
-            <h1 class="slide-title">Deal Pipeline & Project Status</h1>
-            <p class="slide-subtitle">Comprehensive view of signed contracts, active proposals, and emerging opportunities across our market segments</p>
+            <div class="slide-eyebrow">Client Programs</div>
+            <h1 class="slide-title">Progress High-Level Tracker</h1>
+            <p class="slide-subtitle">Real-time monitoring of active projects spanning mangrove restoration, habitat mapping, and ecosystem assessment initiatives across the Middle East and Asia-Pacific regions</p>
         </div>
 
-        <!-- Pipeline Sections -->
-        <div class="pipeline-sections">
-            <!-- Section 1: Signed/Awarded -->
-            <div class="pipeline-section">
-                <div class="section-sidebar">
-                    <div class="section-badge">
-                        <div>
-                            <div class="section-status">Signed/Awarded</div>
-                            <div class="section-value">$8.2M</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="section-content">
-                    <div class="section-signed">
-                        <div class="table-wrapper">
-                            <div class="table-row">
-                                <div class="table-header-cell">Logo</div>
-                                <div class="table-header-cell">Partner Name</div>
-                                <div class="table-header-cell">Region</div>
-                                <div class="table-header-cell">Program Name</div>
-                                <div class="table-header-cell">Contract Value</div>
-                                <div class="table-header-cell">Margin %</div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">EN</div></div>
-                                <div class="table-cell">Ministry of Env</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇦🇪</span></div>
-                                <div class="table-cell">Mangrove Restoration UAE</div>
-                                <div class="table-cell"><span class="metric-highlight">$2.1M</span></div>
-                                <div class="table-cell"><span class="metric-percentage">38%</span></div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">WB</div></div>
-                                <div class="table-cell">World Bank</div>
-                                <div class="table-cell"><span class="placeholder-flag">🌍</span></div>
-                                <div class="table-cell">Blue Carbon Initiative</div>
-                                <div class="table-cell"><span class="metric-highlight">$3.4M</span></div>
-                                <div class="table-cell"><span class="metric-percentage">42%</span></div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">AF</div></div>
-                                <div class="table-cell">Asian Fund</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇮🇩</span></div>
-                                <div class="table-cell">Indonesia Forest Project</div>
-                                <div class="table-cell"><span class="metric-highlight">$2.7M</span></div>
-                                <div class="table-cell"><span class="metric-percentage">35%</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Tracker -->
+        <div class="tracker-wrapper">
+            <!-- Column Headers -->
+            <div class="tracker-headers">
+                <div class="column-header">Program</div>
+                <div class="column-header"><span class="header-icon">👤</span> Client POC</div>
+                <div class="column-header"><span class="header-icon">📋</span> Scope</div>
+                <div class="column-header"><span class="header-icon">⏱️</span> Timeline</div>
+                <div class="column-header"><span class="header-icon">✓</span> Quality</div>
+                <div class="column-header"><span class="header-icon">💰</span> Financials</div>
+                <div class="column-header"><span class="header-icon">📌</span> Key Updates</div>
             </div>
 
-            <!-- Section 2: Proposals Submitted -->
-            <div class="pipeline-section">
-                <div class="section-sidebar">
-                    <div class="section-badge">
-                        <div>
-                            <div class="section-status">Proposals Submitted</div>
-                            <div class="section-value">$5.6M</div>
-                        </div>
-                    </div>
+            <!-- Program 1: EAD Mangrove Restoration -->
+            <div class="program-row">
+                <div class="program-info">
+                    <div class="program-code">EAD</div>
+                    <div class="program-name">Mangrove Restoration</div>
+                    <div class="program-timeline">2024–2033</div>
+                    <div class="program-poc">Sarah Chen</div>
                 </div>
-                <div class="section-content">
-                    <div class="section-proposals">
-                        <div class="table-wrapper">
-                            <div class="table-row">
-                                <div class="table-header-cell">Logo</div>
-                                <div class="table-header-cell">Partner Name</div>
-                                <div class="table-header-cell">Region</div>
-                                <div class="table-header-cell">Program Name</div>
-                                <div class="table-header-cell">Proposal Value</div>
-                                <div class="table-header-cell">Est. Margin %</div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">GEF</div></div>
-                                <div class="table-cell">Global Env Fund</div>
-                                <div class="table-cell"><span class="placeholder-flag">🌏</span></div>
-                                <div class="table-cell">Tropical Ecosystem Monitoring</div>
-                                <div class="table-cell"><span class="metric-highlight">$1.8M</span></div>
-                                <div class="table-cell"><span class="metric-percentage">40%</span></div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">CI</div></div>
-                                <div class="table-cell">Conservation Int'l</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇧🇷</span></div>
-                                <div class="table-cell">Amazon Biodiversity Program</div>
-                                <div class="table-cell"><span class="metric-highlight">$2.2M</span></div>
-                                <div class="table-cell"><span class="metric-percentage">36%</span></div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">ADB</div></div>
-                                <div class="table-cell">Asian Dev Bank</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇵🇭</span></div>
-                                <div class="table-cell">Philippines Forest Analytics</div>
-                                <div class="table-cell"><span class="metric-highlight">$1.6M</span></div>
-                                <div class="table-cell"><span class="metric-percentage">38%</span></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-at-risk">At Risk</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-at-risk">At Risk</div>
                 </div>
             </div>
+            <div class="updates-cell">
+                <div class="updates-title">Key Milestones & Updates</div>
+                <ul class="updates-list">
+                    <li class="updates-item">Contingency plan developed for mapping targets and seeding protocols</li>
+                    <li class="updates-item">Arid VO is issued for EAD review and stakeholder alignment</li>
+                    <li class="updates-item">Ongoing workshops for scope revision and risk mitigation</li>
+                    <li class="updates-item">Budget allocation under review due to market volatility</li>
+                </ul>
+            </div>
 
-            <!-- Section 3: Hot Leads -->
-            <div class="pipeline-section">
-                <div class="section-sidebar">
-                    <div class="section-badge">
-                        <div>
-                            <div class="section-status">Hot Leads</div>
-                            <div class="section-value">$3.9M</div>
-                        </div>
-                    </div>
+            <!-- Program 2: EAD Habitat Mapping -->
+            <div class="program-row">
+                <div class="program-info">
+                    <div class="program-code">EAD</div>
+                    <div class="program-name">Habitat Mapping</div>
+                    <div class="program-timeline">2025–2026</div>
+                    <div class="program-poc">Hamad Mohamed Al Ansari</div>
                 </div>
-                <div class="section-content">
-                    <div class="section-leads">
-                        <div class="table-wrapper">
-                            <div class="table-row">
-                                <div class="table-header-cell">Logo</div>
-                                <div class="table-header-cell">Partner Name</div>
-                                <div class="table-header-cell">Region</div>
-                                <div class="table-header-cell">Logo</div>
-                                <div class="table-header-cell">Partner Name</div>
-                                <div class="table-header-cell">Region</div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">NWF</div></div>
-                                <div class="table-cell">Nature Conservancy</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇲🇽</span></div>
-                                <div class="table-cell"><div class="placeholder-logo">UN</div></div>
-                                <div class="table-cell">UNEP Program</div>
-                                <div class="table-cell"><span class="placeholder-flag">🌍</span></div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">TNC</div></div>
-                                <div class="table-cell">The Nature Trust</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇯🇵</span></div>
-                                <div class="table-cell"><div class="placeholder-logo">WRI</div></div>
-                                <div class="table-cell">World Resources Inst</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇿🇦</span></div>
-                            </div>
-                            <div class="table-row">
-                                <div class="table-cell"><div class="placeholder-logo">FFI</div></div>
-                                <div class="table-cell">Fauna & Flora</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇮🇳</span></div>
-                                <div class="table-cell"><div class="placeholder-logo">BL</div></div>
-                                <div class="table-cell">Blue Land Initiative</div>
-                                <div class="table-cell"><span class="placeholder-flag">🇦🇺</span></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
                 </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+            </div>
+            <div class="updates-cell">
+                <div class="updates-title">Key Milestones & Updates</div>
+                <ul class="updates-list">
+                    <li class="updates-item">Project remains fully on track with all deliverables met on schedule</li>
+                    <li class="updates-item">Field surveys resumed successfully across three habitat zones</li>
+                    <li class="updates-item">Satellite imagery VO in process for approval by EAD technical team</li>
+                    <li class="updates-item">Client satisfied and appreciative of quality and team responsiveness</li>
+                </ul>
+            </div>
+
+            <!-- Program 3: AP Mangrove Site Assessment -->
+            <div class="program-row">
+                <div class="program-info">
+                    <div class="program-code">AP</div>
+                    <div class="program-name">Mangrove Site Assessment</div>
+                    <div class="program-timeline">Jan–Feb 2026</div>
+                    <div class="program-poc">Mussab Awadallah</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+            </div>
+            <div class="updates-cell">
+                <div class="updates-title">Key Milestones & Updates</div>
+                <ul class="updates-list">
+                    <li class="updates-item">All deliverables successfully submitted and accepted by client</li>
+                    <li class="updates-item">All invoices issued on schedule; final payment processing initiated</li>
+                    <li class="updates-item">Project acceptance certificate issued following completion review</li>
+                    <li class="updates-item">Pending final payment on 2nd invoice (last) from client</li>
+                </ul>
+            </div>
+
+            <!-- Program 4: ADNOC Mangrove Restoration -->
+            <div class="program-row">
+                <div class="program-info">
+                    <div class="program-code">ADNOC</div>
+                    <div class="program-name">Mangrove Restoration</div>
+                    <div class="program-timeline">2026–2032</div>
+                    <div class="program-poc">Azza Ahmed Alraisi</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-at-risk">At Risk</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-at-risk">At Risk</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-on-plan">On Plan</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-at-risk">At Risk</div>
+                </div>
+                <div class="status-cell">
+                    <div class="status-indicator status-at-risk">At Risk</div>
+                </div>
+            </div>
+            <div class="updates-cell">
+                <div class="updates-title">Key Milestones & Updates</div>
+                <ul class="updates-list">
+                    <li class="updates-item">Project soft kick-off completed with initial stakeholder alignment</li>
+                    <li class="updates-item">No clarity yet from ADNOC on plan to resume seeding operations for 2026</li>
+                    <li class="updates-item">Pending contract signature; waiting on final ADNOC approvals</li>
+                    <li class="updates-item">Risk: scope and timeline clarity dependent on ADNOC strategic decisions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend-wrapper">
+            <div class="legend-item">
+                <div class="legend-dot status-on-plan"></div>
+                <div class="legend-text">On Plan</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot status-at-risk"></div>
+                <div class="legend-text">Recoverable Risk</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot status-intervention"></div>
+                <div class="legend-text">Council Intervention Required</div>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="slide-footer">
-            <span>Pipeline Confidential – Internal Use Only</span>
+            <span>Document Classified as: Confidential</span>
             <span class="footer-icon"></span>
-            <span>nabat.ai | Fiscal 2025</span>
+            <span>nabat.ai | Program Tracking</span>
         </div>
     </div>
 </body>
