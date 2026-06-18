@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Forecast – nabat.ai</title>
+    <title>Pipeline Overview – nabat.ai</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -19,9 +19,10 @@
 
         body {
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #fafaf8 0%, #f5f1ed 50%, #f0e8e0 100%);
+            background: linear-gradient(135deg, #f9f7f4 0%, #f5f3f0 50%, #f1f0ed 100%);
             color: #1a1a1a;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         /* SVG Background Texture */
@@ -31,7 +32,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.04;
+            opacity: 0.03;
             pointer-events: none;
             z-index: 0;
         }
@@ -43,8 +44,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" /></filter><rect width="100" height="100" fill="%231a4d3e" filter="url(%23noise)" opacity="0.02"/></svg>');
-            opacity: 0.3;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" /></filter><rect width="100" height="100" fill="%231a4d3e" filter="url(%23noise)" opacity="0.01"/></svg>');
+            opacity: 0.2;
             pointer-events: none;
             z-index: 1;
         }
@@ -53,13 +54,12 @@
         .slide {
             position: relative;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             padding: 72px 80px;
             background: transparent;
             z-index: 2;
-            overflow: hidden;
         }
 
         /* Decorative top accent line */
@@ -70,11 +70,12 @@
             right: 0;
             height: 3px;
             background: linear-gradient(90deg, #1a4d3e 0%, #c9a876 50%, transparent 100%);
+            z-index: 10;
         }
 
         /* Header Section */
         .slide-header {
-            margin-bottom: 48px;
+            margin-bottom: 56px;
             position: relative;
             z-index: 3;
         }
@@ -104,201 +105,207 @@
         }
 
         .slide-subtitle {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 400;
             line-height: 1.6;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
             color: #5a5a5a;
             max-width: 700px;
         }
 
-        /* Timeline Container */
-        .timeline-section {
-            flex: 1;
+        /* Pipeline Sections Container */
+        .pipeline-sections {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 40px;
             position: relative;
             z-index: 3;
+            margin-bottom: 48px;
         }
 
-        /* Timeline Header - Four Periods */
-        .timeline-header {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+        /* Section Container */
+        .pipeline-section {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        /* Section Sidebar */
+        .section-sidebar {
+            width: 160px;
+            flex-shrink: 0;
+        }
+
+        .section-badge {
+            background: linear-gradient(135deg, rgba(26, 77, 62, 0.08), rgba(45, 122, 109, 0.08));
+            border: 1px solid rgba(26, 77, 62, 0.15);
+            border-radius: 16px;
+            padding: 28px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-status {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a4d3e;
+            line-height: 1.4;
             margin-bottom: 8px;
         }
 
-        .timeline-period {
-            background: linear-gradient(135deg, #1a4d3e 0%, #2d7a6d 100%);
-            color: #ffffff;
-            padding: 20px 24px;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(26, 77, 62, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .section-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #c9a876;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Section - Signed/Awarded (Light Blue) */
+        .section-signed {
+            background: rgba(173, 216, 230, 0.3);
+            border: 1px solid rgba(26, 77, 62, 0.1);
+            border-radius: 20px;
+            padding: 32px;
             backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .timeline-period::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        .section-signed .table-header-cell {
+            background: linear-gradient(135deg, rgba(26, 77, 62, 0.7), rgba(45, 122, 109, 0.7));
         }
 
-        .timeline-period:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 48px rgba(26, 77, 62, 0.25);
+        /* Section - Proposals (Light Green) */
+        .section-proposals {
+            background: rgba(144, 238, 144, 0.25);
+            border: 1px solid rgba(26, 77, 62, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
         }
 
-        /* Revenue Rows Container */
-        .revenue-rows {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+        .section-proposals .table-header-cell {
+            background: linear-gradient(135deg, rgba(26, 77, 62, 0.7), rgba(45, 122, 109, 0.7));
+        }
+
+        /* Section - Hot Leads (Purple) */
+        .section-leads {
+            background: rgba(147, 51, 234, 0.15);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-leads .table-header-cell {
+            background: linear-gradient(135deg, rgba(115, 51, 150, 0.8), rgba(147, 51, 234, 0.8));
+        }
+
+        /* Content Wrapper */
+        .section-content {
             flex: 1;
         }
 
-        /* Revenue Row */
-        .revenue-row {
-            display: grid;
-            grid-template-columns: 280px repeat(4, 1fr);
-            gap: 20px;
-            align-items: stretch;
-        }
-
-        /* Row Label (Left) */
-        .row-label {
-            background: linear-gradient(135deg, #1a4d3e 0%, #2d7a6d 100%);
-            color: #ffffff;
-            padding: 28px 24px;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
+        /* Table Container */
+        .table-wrapper {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 32px rgba(26, 77, 62, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .row-label::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        }
-
-        /* Data Cell */
-        .data-cell {
-            background: rgba(232, 243, 240, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(201, 168, 118, 0.2);
-            padding: 28px 24px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             flex-direction: column;
-            gap: 12px;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
+            gap: 0;
             overflow: hidden;
+            border-radius: 16px;
         }
 
-        .data-cell::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(201, 168, 118, 0.1), transparent);
-            transition: left 0.6s ease;
+        /* Table Row */
+        .table-row {
+            display: grid;
+            grid-template-columns: 100px 140px 100px 280px 120px 140px;
+            gap: 0;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid rgba(26, 77, 62, 0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
         }
 
-        .data-cell:hover::before {
-            left: 100%;
+        .section-leads .table-row {
+            grid-template-columns: 100px 140px 100px 100px 140px 100px;
         }
 
-        .data-cell:hover {
-            background: rgba(232, 243, 240, 0.95);
-            border-color: rgba(201, 168, 118, 0.4);
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(45, 122, 109, 0.15);
+        .table-row:first-child {
+            background: transparent;
         }
 
-        /* Data Value */
-        .data-value {
-            font-size: 32px;
-            font-weight: 800;
-            color: #1a4d3e;
-            font-family: 'Poppins', sans-serif;
-            line-height: 1;
+        .table-row:hover {
+            background: rgba(201, 168, 118, 0.08);
+            transform: translateX(4px);
         }
 
-        .data-unit {
-            font-size: 12px;
+        .table-row:first-child:hover {
+            background: transparent;
+            transform: none;
+        }
+
+        /* Table Cell */
+        .table-cell {
+            padding: 20px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+        }
+
+        /* Header Cell */
+        .table-header-cell {
+            background: linear-gradient(135deg, rgba(26, 77, 62, 0.7), rgba(45, 122, 109, 0.7));
+            color: #ffffff;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #5a5a5a;
-        }
-
-        .data-change {
             font-size: 13px;
-            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 18px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table-cell:not(.table-header-cell) {
+            border-right: 1px solid rgba(26, 77, 62, 0.05);
+        }
+
+        .table-cell:last-child {
+            border-right: none;
+        }
+
+        /* Placeholder Content Styles */
+        .placeholder-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #c9a876, #b8956f);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .placeholder-flag {
+            font-size: 20px;
+        }
+
+        /* Metric Highlighting */
+        .metric-highlight {
+            font-weight: 700;
+            color: #1a4d3e;
+        }
+
+        .metric-percentage {
+            font-weight: 700;
             color: #2d7a6d;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: all 0.4s ease;
-        }
-
-        .data-cell:hover .data-change {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Accent Graphics */
-        .accent-corner {
-            position: absolute;
-            opacity: 0.08;
-            pointer-events: none;
-        }
-
-        .accent-top-right {
-            top: -100px;
-            right: -100px;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #1a4d3e, transparent);
-            border-radius: 50%;
-        }
-
-        .accent-bottom-left {
-            bottom: -150px;
-            left: -150px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #c9a876, transparent);
-            border-radius: 50%;
         }
 
         /* Footer */
@@ -325,6 +332,32 @@
             vertical-align: middle;
         }
 
+        /* Accent Graphics */
+        .accent-corner {
+            position: absolute;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .accent-top-right {
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #1a4d3e, transparent);
+            border-radius: 50%;
+        }
+
+        .accent-bottom-right {
+            bottom: -150px;
+            right: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #c9a876, transparent);
+            border-radius: 50%;
+        }
+
         /* Responsive Design */
         @media (max-width: 1400px) {
             .slide {
@@ -335,32 +368,47 @@
                 font-size: 48px;
             }
 
-            .revenue-row {
-                grid-template-columns: 240px repeat(4, 1fr);
+            .table-row {
+                grid-template-columns: 90px 130px 90px 250px 110px 130px;
+            }
+
+            .section-leads .table-row {
+                grid-template-columns: 90px 130px 90px 90px 130px 90px;
             }
         }
 
         @media (max-width: 1200px) {
             .slide {
                 padding: 48px 40px;
-                overflow-y: auto;
             }
 
             .slide-title {
                 font-size: 40px;
             }
 
-            .timeline-header,
-            .revenue-row {
-                grid-template-columns: 1fr;
+            .pipeline-section {
+                flex-direction: column;
+                gap: 20px;
             }
 
-            .slide-header {
-                margin-bottom: 32px;
+            .section-sidebar {
+                width: 100%;
             }
 
-            .timeline-section {
-                gap: 16px;
+            .section-badge {
+                display: flex;
+                gap: 24px;
+                text-align: left;
+                padding: 20px 24px;
+            }
+
+            .table-row {
+                grid-template-columns: repeat(6, 1fr);
+                font-size: 12px;
+            }
+
+            .section-leads .table-row {
+                grid-template-columns: repeat(6, 1fr);
             }
         }
 
@@ -378,17 +426,11 @@
 
             .slide {
                 background: #ffffff;
-                height: auto;
+                min-height: auto;
             }
 
-            .data-cell:hover,
-            .timeline-period:hover,
-            .row-label:hover {
-                transform: none;
-            }
-
-            .data-change {
-                opacity: 1;
+            .table-row:hover {
+                background: rgba(255, 255, 255, 0.5);
                 transform: none;
             }
         }
@@ -415,74 +457,163 @@
 
         <!-- Accent Circles -->
         <div class="accent-corner accent-top-right"></div>
-        <div class="accent-corner accent-bottom-left"></div>
+        <div class="accent-corner accent-bottom-right"></div>
 
         <!-- Header -->
         <div class="slide-header">
-            <div class="slide-eyebrow">Financial Performance</div>
-            <h1 class="slide-title">Revenue Projections & Growth Trajectory</h1>
-            <p class="slide-subtitle">Multi-period financial forecasts spanning 2025 through 2027, tracking revenue streams and monetization milestones</p>
+            <div class="slide-eyebrow">Pipeline Overview</div>
+            <h1 class="slide-title">Deal Pipeline & Project Status</h1>
+            <p class="slide-subtitle">Comprehensive view of signed contracts, active proposals, and emerging opportunities across our market segments</p>
         </div>
 
-        <!-- Timeline Section -->
-        <div class="timeline-section">
-            <!-- Timeline Header -->
-            <div class="timeline-header">
-                <div class="timeline-period">End of 2025 Snapshot</div>
-                <div class="timeline-period">End of Q1 2026 Snapshot</div>
-                <div class="timeline-period">2026 EOY Forecast</div>
-                <div class="timeline-period">2027 Plan</div>
-            </div>
-
-            <!-- Revenue Rows -->
-            <div class="revenue-rows">
-                <!-- Row 1: Total Revenue -->
-                <div class="revenue-row">
-                    <div class="row-label">Total Revenue</div>
-                    <div class="data-cell">
-                        <div class="data-value">$420K</div>
-                        <div class="data-unit">USD</div>
-                        <div class="data-change">Q4 validation</div>
-                    </div>
-                    <div class="data-cell">
-                        <div class="data-value">$890K</div>
-                        <div class="data-unit">USD</div>
-                        <div class="data-change">+112% growth</div>
-                    </div>
-                    <div class="data-cell">
-                        <div class="data-value">$2.4M</div>
-                        <div class="data-unit">USD</div>
-                        <div class="data-change">+169% growth</div>
-                    </div>
-                    <div class="data-cell">
-                        <div class="data-value">$5.8M</div>
-                        <div class="data-unit">USD</div>
-                        <div class="data-change">+142% growth</div>
+        <!-- Pipeline Sections -->
+        <div class="pipeline-sections">
+            <!-- Section 1: Signed/Awarded -->
+            <div class="pipeline-section">
+                <div class="section-sidebar">
+                    <div class="section-badge">
+                        <div>
+                            <div class="section-status">Signed/Awarded</div>
+                            <div class="section-value">$8.2M</div>
+                        </div>
                     </div>
                 </div>
+                <div class="section-content">
+                    <div class="section-signed">
+                        <div class="table-wrapper">
+                            <div class="table-row">
+                                <div class="table-header-cell">Logo</div>
+                                <div class="table-header-cell">Partner Name</div>
+                                <div class="table-header-cell">Region</div>
+                                <div class="table-header-cell">Program Name</div>
+                                <div class="table-header-cell">Contract Value</div>
+                                <div class="table-header-cell">Margin %</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">EN</div></div>
+                                <div class="table-cell">Ministry of Env</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇦🇪</span></div>
+                                <div class="table-cell">Mangrove Restoration UAE</div>
+                                <div class="table-cell"><span class="metric-highlight">$2.1M</span></div>
+                                <div class="table-cell"><span class="metric-percentage">38%</span></div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">WB</div></div>
+                                <div class="table-cell">World Bank</div>
+                                <div class="table-cell"><span class="placeholder-flag">🌍</span></div>
+                                <div class="table-cell">Blue Carbon Initiative</div>
+                                <div class="table-cell"><span class="metric-highlight">$3.4M</span></div>
+                                <div class="table-cell"><span class="metric-percentage">42%</span></div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">AF</div></div>
+                                <div class="table-cell">Asian Fund</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇮🇩</span></div>
+                                <div class="table-cell">Indonesia Forest Project</div>
+                                <div class="table-cell"><span class="metric-highlight">$2.7M</span></div>
+                                <div class="table-cell"><span class="metric-percentage">35%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <!-- Row 2: Recurring Revenue -->
-                <div class="revenue-row">
-                    <div class="row-label">Recurring Revenue</div>
-                    <div class="data-cell">
-                        <div class="data-value">$280K</div>
-                        <div class="data-unit">USD</div>
-                        <div class="data-change">Core subscription</div>
+            <!-- Section 2: Proposals Submitted -->
+            <div class="pipeline-section">
+                <div class="section-sidebar">
+                    <div class="section-badge">
+                        <div>
+                            <div class="section-status">Proposals Submitted</div>
+                            <div class="section-value">$5.6M</div>
+                        </div>
                     </div>
-                    <div class="data-cell">
-                        <div class="data-value">$620K</div>
-                        <div class="data-unit">USD</div>
-                        <div class="data-change">+121% growth</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-proposals">
+                        <div class="table-wrapper">
+                            <div class="table-row">
+                                <div class="table-header-cell">Logo</div>
+                                <div class="table-header-cell">Partner Name</div>
+                                <div class="table-header-cell">Region</div>
+                                <div class="table-header-cell">Program Name</div>
+                                <div class="table-header-cell">Proposal Value</div>
+                                <div class="table-header-cell">Est. Margin %</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">GEF</div></div>
+                                <div class="table-cell">Global Env Fund</div>
+                                <div class="table-cell"><span class="placeholder-flag">🌏</span></div>
+                                <div class="table-cell">Tropical Ecosystem Monitoring</div>
+                                <div class="table-cell"><span class="metric-highlight">$1.8M</span></div>
+                                <div class="table-cell"><span class="metric-percentage">40%</span></div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">CI</div></div>
+                                <div class="table-cell">Conservation Int'l</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇧🇷</span></div>
+                                <div class="table-cell">Amazon Biodiversity Program</div>
+                                <div class="table-cell"><span class="metric-highlight">$2.2M</span></div>
+                                <div class="table-cell"><span class="metric-percentage">36%</span></div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">ADB</div></div>
+                                <div class="table-cell">Asian Dev Bank</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇵🇭</span></div>
+                                <div class="table-cell">Philippines Forest Analytics</div>
+                                <div class="table-cell"><span class="metric-highlight">$1.6M</span></div>
+                                <div class="table-cell"><span class="metric-percentage">38%</span></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="data-cell">
-                        <div class="data-value">$1.8M</div>
-                        <div class="data-unit">USD</div>
-                        <div class="data-change">+190% growth</div>
+                </div>
+            </div>
+
+            <!-- Section 3: Hot Leads -->
+            <div class="pipeline-section">
+                <div class="section-sidebar">
+                    <div class="section-badge">
+                        <div>
+                            <div class="section-status">Hot Leads</div>
+                            <div class="section-value">$3.9M</div>
+                        </div>
                     </div>
-                    <div class="data-cell">
-                        <div class="data-value">$4.2M</div>
-                        <div class="data-unit">USD</div>
-                        <div class="data-change">+133% growth</div>
+                </div>
+                <div class="section-content">
+                    <div class="section-leads">
+                        <div class="table-wrapper">
+                            <div class="table-row">
+                                <div class="table-header-cell">Logo</div>
+                                <div class="table-header-cell">Partner Name</div>
+                                <div class="table-header-cell">Region</div>
+                                <div class="table-header-cell">Logo</div>
+                                <div class="table-header-cell">Partner Name</div>
+                                <div class="table-header-cell">Region</div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">NWF</div></div>
+                                <div class="table-cell">Nature Conservancy</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇲🇽</span></div>
+                                <div class="table-cell"><div class="placeholder-logo">UN</div></div>
+                                <div class="table-cell">UNEP Program</div>
+                                <div class="table-cell"><span class="placeholder-flag">🌍</span></div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">TNC</div></div>
+                                <div class="table-cell">The Nature Trust</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇯🇵</span></div>
+                                <div class="table-cell"><div class="placeholder-logo">WRI</div></div>
+                                <div class="table-cell">World Resources Inst</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇿🇦</span></div>
+                            </div>
+                            <div class="table-row">
+                                <div class="table-cell"><div class="placeholder-logo">FFI</div></div>
+                                <div class="table-cell">Fauna & Flora</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇮🇳</span></div>
+                                <div class="table-cell"><div class="placeholder-logo">BL</div></div>
+                                <div class="table-cell">Blue Land Initiative</div>
+                                <div class="table-cell"><span class="placeholder-flag">🇦🇺</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -490,9 +621,9 @@
 
         <!-- Footer -->
         <div class="slide-footer">
-            <span>Financial Forecast – Confidential</span>
+            <span>Pipeline Confidential – Internal Use Only</span>
             <span class="footer-icon"></span>
-            <span>nabat.ai Platform</span>
+            <span>nabat.ai | Fiscal 2025</span>
         </div>
     </div>
 </body>
