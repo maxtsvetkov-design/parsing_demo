@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>nabat — EAD reference project</title>
+<title>nabat — marketing dashboard · May 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#FAFAF5; --paper-warm:#F4EFE4; --paper-deep:#E6DCC2;
+    --paper:#FAFAF5; --paper-warm:#F4EFE4; --paper-deep:#E9E4D6;
     --ink:#0A1410; --ink-soft:#1C2A23; --ink-muted:#4A5A50;
-    --brand:#246C5F; --forest:#0B1F17; --forest-2:#0F2A1F;
-    --gold:#B89968; --gold-bright:#D4B577; --gold-deep:#8C6F3F;
-    --rule:#B8A87E; --terra:#B5603C;
+    --brand:#246C5F; --brand-dk:#0D482E; --forest-2:#0F2A1F;
+    --gold:#B89968; --gold-bright:#D4B577; --gold-deep:#8C6F3F; --rule:#B8A87E;
+    --terra:#B5603C; --mute:#8A938C;
+    --card:#F1EEE4; --panel:#FFFFFF;
     --serif:'Cormorant Garamond',Georgia,serif;
     --ui:'Inter Tight',system-ui,sans-serif;
     --mono:'JetBrains Mono','Courier New',monospace;
@@ -25,261 +26,235 @@
 
   .slide{position:relative;width:1280px;height:720px;overflow:hidden;
     background:
-      radial-gradient(1100px 700px at 88% 6%, rgba(36,108,95,.06), transparent 60%),
-      radial-gradient(900px 600px at 4% 98%, rgba(184,153,104,.07), transparent 62%),
+      radial-gradient(1000px 640px at 92% 0%, rgba(36,108,95,.05), transparent 60%),
+      radial-gradient(820px 560px at 2% 100%, rgba(184,153,104,.06), transparent 62%),
       var(--paper);
     color:var(--ink);font-family:var(--ui)}
-  .grid{position:absolute;inset:0;pointer-events:none;opacity:.45;
+  .grid{position:absolute;inset:0;pointer-events:none;opacity:.4;
     background-image:
-      linear-gradient(to right, rgba(11,31,23,.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(11,31,23,.03) 1px, transparent 1px);
+      linear-gradient(to right, rgba(11,31,23,.028) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(11,31,23,.028) 1px, transparent 1px);
     background-size:64px 64px}
-  .contours{position:absolute;inset:0;pointer-events:none}
-  .contours path{fill:none;stroke:var(--gold);stroke-width:1;opacity:.12}
-  .grain{position:absolute;inset:0;pointer-events:none;opacity:.035;mix-blend-mode:multiply;
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.03;mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-  .pad{position:absolute;inset:0;padding:34px 52px 26px;display:flex;flex-direction:column}
+  .pad{position:absolute;inset:0;padding:28px 34px 20px;display:flex;flex-direction:column}
 
-  .masthead{display:flex;justify-content:space-between;align-items:baseline;
-    font-family:var(--ui);font-size:9px;font-weight:600;letter-spacing:.22em;
-    text-transform:uppercase;color:var(--ink-muted)}
-  .masthead .r{font-family:var(--ui);color:var(--brand)}
-  .rule-gold{height:1px;background:linear-gradient(to right,var(--rule),rgba(184,168,126,.22));margin:11px 0 0}
+  /* header */
+  .top{display:flex;justify-content:space-between;align-items:flex-end;
+    padding-bottom:12px;border-bottom:1px solid var(--rule)}
+  .top .eye{font-family:var(--ui);font-size:9px;font-weight:600;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--brand);margin-bottom:4px}
+  .top h1{font-family:var(--serif);font-weight:500;font-size:33px;line-height:1;
+    letter-spacing:-.01em;color:var(--ink)}
+  .top h1 em{font-style:italic;color:var(--gold-deep)}
+  .legend{display:flex;gap:22px;padding-bottom:3px}
+  .lg{display:flex;align-items:center;gap:7px;font-family:var(--ui);font-size:9.5px;
+    font-weight:500;color:var(--ink-muted)}
+  .lg i{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .d-ok{background:var(--brand)} .d-mon{background:var(--mute)} .d-bad{background:var(--terra)}
 
-  .head{margin-top:16px;display:flex;justify-content:space-between;align-items:flex-end;gap:36px}
-  h1{font-family:var(--serif);font-weight:300;font-size:32px;line-height:1.0;
-    letter-spacing:-.012em;color:var(--ink);max-width:820px}
-  h1 em{font-style:italic;color:var(--forest-2)}
-  .lede{font-family:var(--serif);font-style:italic;font-size:14px;line-height:1.38;
-    color:var(--ink-muted);margin-top:10px;max-width:640px}
-  .region{flex:0 0 auto;text-align:right}
-  .region .flag{display:inline-flex;gap:4px;margin-bottom:8px}
-  .region .flag span{width:10px;height:20px;border-radius:1px}
-  .region .label{font-family:var(--mono);font-size:8px;font-weight:500;
-    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
-  .region .span{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold-deep);margin-top:2px}
+  /* quadrant grid */
+  .quad{margin-top:14px;flex:1;display:grid;grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;gap:14px;min-height:0}
+  .panel{background:var(--panel);border:1px solid rgba(184,168,126,.55);border-radius:7px;
+    padding:14px 15px 13px;display:flex;flex-direction:column;min-height:0;
+    box-shadow:0 1px 0 rgba(10,20,16,.03)}
+  .p-head{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--brand);margin-bottom:11px;display:flex;align-items:center;gap:9px}
+  .p-head::after{content:"";flex:1;height:1px;background:linear-gradient(to right,rgba(184,168,126,.5),transparent)}
 
-  /* programme band */
-  .band{margin-top:18px;display:grid;grid-template-columns:0.85fr 1.1fr 0.85fr 1.2fr;
-    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
-  .bcell{padding:11px 20px 10px;border-right:1px solid rgba(184,168,126,.38)}
-  .bcell:last-child{border-right:none}
-  .bcell .k{font-family:var(--serif);font-style:italic;font-weight:500;font-size:26px;
-    line-height:1;color:var(--brand);font-variant-numeric:tabular-nums}
-  .bcell .k .u{font-size:14px}
-  .bcell .k .pre{font-family:var(--ui);font-style:normal;font-weight:600;font-size:11px;
-    letter-spacing:.06em;color:var(--gold-deep);vertical-align:2px;margin-right:3px}
-  .bcell .v{font-family:var(--ui);font-size:8.5px;font-weight:600;letter-spacing:.15em;
-    text-transform:uppercase;color:var(--ink-muted);margin-top:7px;line-height:1.45}
-  .subline{margin-top:9px;font-family:var(--serif);font-style:italic;font-size:13px;
-    color:var(--ink-soft)}
-  .subline b{font-style:normal;font-weight:600;font-family:var(--ui);font-size:11px;
-    color:var(--brand);font-variant-numeric:tabular-nums}
-  .subline .lab{font-family:var(--ui);font-style:normal;font-size:8.5px;font-weight:600;
-    letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);margin-right:8px}
+  .cards{flex:1;display:grid;gap:9px;min-height:0}
+  .g2x2{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
 
-  /* three columns */
-  .cols{margin-top:16px;flex:1;display:grid;grid-template-columns:0.92fr 1.16fr 0.92fr;
-    gap:30px;min-height:0}
-  .col{position:relative;padding-left:0}
-  .col + .col{border-left:1px solid rgba(184,168,126,.4);padding-left:30px}
-  .clabel{font-family:var(--ui);font-size:9px;font-weight:600;letter-spacing:.22em;
-    text-transform:uppercase;color:var(--ink);padding-bottom:9px;margin-bottom:11px;
-    border-bottom:2px solid var(--gold)}
+  .card{background:var(--card);border:1px solid rgba(184,168,126,.32);border-radius:4px;
+    padding:10px 12px;display:flex;flex-direction:column;min-height:0;position:relative}
+  .c-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+  .c-lab{font-family:var(--ui);font-size:8.5px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);line-height:1.3;max-width:88%}
+  .c-lab.hl{background:linear-gradient(transparent 42%, rgba(212,181,119,.72) 42%);
+    display:inline;padding:0 2px}
+  .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;margin-top:1px}
+  .num{font-family:var(--ui);font-weight:700;font-size:29px;line-height:1;letter-spacing:-.01em;
+    margin-top:6px;font-variant-numeric:tabular-nums}
+  .num.of{font-size:24px}
+  .num.ok{color:var(--brand-dk)} .num.mon{color:var(--mute)} .num.bad{color:var(--terra)}
+  .num .sm{font-size:15px;font-weight:600}
+  .va{font-family:var(--ui);font-style:italic;font-size:9px;color:var(--ink-muted);
+    margin-top:auto;padding-top:7px;line-height:1.4}
+  .base{font-family:var(--ui);font-size:8.5px;font-weight:600;color:var(--ink-soft);
+    margin-top:4px;line-height:1.4;font-variant-numeric:tabular-nums}
+  .base .t{color:var(--gold-deep)}
+  .note{font-family:var(--ui);font-style:italic;font-size:8.5px;color:var(--ink-muted);
+    margin-top:auto;padding-top:7px;line-height:1.4}
 
-  .blk{margin-bottom:13px}
-  .blk:last-child{margin-bottom:0}
-  .bttl{font-family:var(--ui);font-size:11.5px;font-weight:600;color:var(--ink);
-    display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
-  .pill{font-family:var(--mono);font-size:7px;font-weight:500;letter-spacing:.12em;
-    text-transform:uppercase;padding:2px 6px;border-radius:2px}
-  .pill.ok{color:#fff;background:var(--brand)}
-  .pill.go{color:var(--gold-deep);border:1px solid rgba(184,153,104,.6)}
+  /* events specifics */
+  .g-ev{grid-template-rows:auto auto 1fr}
+  .ev3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+  .ev-wide .c-top{align-items:center}
+  .ev-wide .num{margin-top:0}
+  .ev-wide-body{display:flex;align-items:center;gap:14px}
+  .ev-src{font-family:var(--ui);font-style:italic;font-size:9px;color:var(--ink-muted);line-height:1.45}
+  .ev-src b{font-style:normal;font-weight:600;color:var(--gold-deep)}
+  .foot-note{font-family:var(--ui);font-size:7.5px;line-height:1.5;color:var(--ink-muted);
+    margin-top:9px;border-top:1px solid rgba(184,168,126,.4);padding-top:7px}
 
-  ul{list-style:none}
-  li{font-family:var(--ui);font-size:10px;font-weight:400;line-height:1.5;color:var(--ink-soft);
-    padding-left:13px;position:relative;margin-bottom:3px;font-variant-numeric:tabular-nums}
-  li::before{content:"";position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;
-    background:var(--gold)}
-  li.next::before{background:none;border:1px solid var(--gold-deep);width:4px;height:4px;top:5.5px}
-  li b{font-weight:600;color:var(--ink)}
-  li .st{font-family:var(--mono);font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)}
-
-  .rl{font-family:var(--ui);font-size:9.5px;line-height:1.48;color:var(--ink-soft);margin-bottom:5px}
-  .rl .tag{font-family:var(--mono);font-size:7px;font-weight:500;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--gold-deep);margin-right:6px}
-  .rl b{font-weight:600;color:var(--ink)}
-  .sub{font-family:var(--ui);font-size:9.5px;line-height:1.46;color:var(--ink-muted);
-    padding-left:12px;position:relative;margin-bottom:4px}
-  .sub::before{content:"—";position:absolute;left:0;color:var(--gold-deep)}
-  .sub i{font-family:var(--serif);font-style:italic;font-size:11px;color:var(--brand)}
-
-  /* arid mini stat grid */
-  .agrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(184,168,126,.4);
-    border:1px solid rgba(184,168,126,.4);border-radius:2px;margin:8px 0 10px}
-  .agrid div{background:var(--paper);padding:7px 9px}
-  .agrid .n{font-family:var(--serif);font-style:italic;font-weight:500;font-size:18px;
-    color:var(--gold-deep);line-height:1;font-variant-numeric:tabular-nums}
-  .agrid .l{font-family:var(--ui);font-size:8px;font-weight:600;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--ink-muted);margin-top:4px}
-  .co{display:flex;align-items:baseline;gap:8px;margin-bottom:9px}
-  .co .lab{font-family:var(--ui);font-size:8px;font-weight:600;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--ink-muted)}
-  .co .val{font-family:var(--serif);font-style:italic;font-weight:500;font-size:19px;color:var(--brand);
-    font-variant-numeric:tabular-nums}
-  .co .val .pre{font-family:var(--ui);font-style:normal;font-weight:600;font-size:9px;
-    color:var(--gold-deep);vertical-align:2px;margin-right:2px;letter-spacing:.05em}
-  .krisk{font-family:var(--ui);font-size:9.5px;line-height:1.46;color:var(--ink-soft);
-    border-left:2px solid var(--terra);padding-left:9px}
-  .krisk .tag{font-family:var(--mono);font-size:7px;font-weight:500;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--terra);display:block;margin-bottom:2px}
-
-  .foot{margin-top:14px;display:flex;justify-content:space-between;align-items:center;
-    font-family:var(--mono);font-size:7.5px;font-weight:500;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--ink-muted)}
-  .foot .brand{font-family:var(--serif);font-style:italic;font-size:13px;letter-spacing:0;
-    text-transform:none;color:var(--forest-2)}
-  .foot .brand b{font-weight:500}
-
-  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-  .anim{opacity:0;animation:rise .65s cubic-bezier(.22,.61,.36,1) forwards}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .anim{opacity:0;animation:rise .6s cubic-bezier(.22,.61,.36,1) forwards}
 </style>
 </head>
 <body>
 <div id="stage">
   <div class="slide">
     <div class="grid"></div>
-    <svg class="contours" viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid slice">
-<path d="M 1115.1,150.0 C 1112.2,155.7 1108.5,157.4 1107.2,163.1 C 1106.0,168.9 1111.1,182.2 1107.6,184.6 C 1104.1,186.9 1092.4,176.4 1086.2,177.3 C 1080.1,178.2 1075.7,189.8 1070.9,190.0 C 1066.1,190.1 1060.0,183.0 1057.4,178.3 C 1054.8,173.7 1058.0,166.7 1055.1,162.0 C 1052.2,157.3 1039.7,154.0 1039.8,150.0 C 1039.9,146.0 1052.9,143.2 1055.6,138.3 C 1058.4,133.3 1053.2,122.8 1056.2,120.2 C 1059.2,117.6 1068.8,122.4 1073.8,122.7 C 1078.8,123.1 1081.4,122.6 1086.4,122.2 C 1091.3,121.8 1097.3,119.3 1103.6,120.4 C 1109.9,121.5 1122.4,123.7 1124.3,128.7 C 1126.2,133.6 1117.9,144.3 1115.1,150.0 Z"/>
-<path d="M 1143.5,150.0 C 1141.0,160.8 1142.2,168.6 1139.7,178.7 C 1137.2,188.9 1135.1,201.4 1128.4,210.6 C 1121.6,219.9 1110.1,232.1 1099.3,234.4 C 1088.4,236.6 1073.7,229.0 1063.1,224.2 C 1052.5,219.5 1046.0,211.7 1035.7,205.6 C 1025.4,199.5 1004.1,197.2 1001.3,187.9 C 998.5,178.6 1018.2,162.4 1018.7,150.0 C 1019.2,137.6 1001.1,122.4 1004.3,113.5 C 1007.4,104.7 1027.3,101.1 1037.5,96.8 C 1047.8,92.4 1056.3,89.0 1065.7,87.6 C 1075.2,86.2 1084.6,86.8 1094.1,88.3 C 1103.6,89.8 1112.7,92.0 1122.8,96.3 C 1132.9,100.6 1151.2,105.1 1154.6,114.1 C 1158.1,123.0 1146.0,139.2 1143.5,150.0 Z"/>
-<path d="M 1179.1,150.0 C 1180.2,165.4 1184.2,183.3 1179.4,197.9 C 1174.5,212.4 1162.4,228.5 1149.8,237.5 C 1137.1,246.5 1118.9,248.6 1103.2,251.8 C 1087.6,255.0 1069.5,261.1 1055.7,256.6 C 1041.8,252.1 1030.6,235.7 1020.3,224.9 C 1010.0,214.0 1000.5,204.0 993.8,191.5 C 987.1,179.0 982.8,165.1 980.2,150.0 C 977.6,134.9 972.5,114.8 978.1,100.9 C 983.8,87.1 1000.8,75.7 1013.9,67.1 C 1027.1,58.6 1042.0,53.9 1057.1,49.8 C 1072.2,45.7 1089.7,39.6 1104.6,42.4 C 1119.5,45.2 1135.2,56.1 1146.5,66.6 C 1157.8,77.1 1166.8,91.7 1172.3,105.6 C 1177.7,119.5 1177.9,134.6 1179.1,150.0 Z"/>
-<path d="M 1230.2,150.0 C 1231.1,170.9 1224.0,196.5 1213.0,214.0 C 1201.9,231.6 1180.9,242.7 1164.1,255.4 C 1147.3,268.2 1131.4,284.9 1112.1,290.5 C 1092.8,296.1 1069.4,292.7 1048.2,289.1 C 1027.1,285.6 1001.9,281.7 984.9,269.2 C 967.9,256.8 953.1,234.3 946.3,214.4 C 939.4,194.5 945.0,172.0 943.9,150.0 C 942.9,128.0 930.9,99.7 939.9,82.6 C 949.0,65.4 980.0,58.8 998.1,47.3 C 1016.3,35.9 1029.7,20.9 1048.9,13.8 C 1068.1,6.7 1094.3,-0.9 1113.2,4.5 C 1132.1,10.0 1146.7,32.6 1162.5,46.6 C 1178.2,60.6 1196.4,71.3 1207.7,88.5 C 1219.0,105.8 1229.4,129.1 1230.2,150.0 Z"/>
-<path d="M 1243.1,150.0 C 1243.1,176.1 1250.9,204.5 1242.8,228.4 C 1234.7,252.3 1214.9,277.5 1194.4,293.4 C 1173.8,309.3 1145.6,317.2 1119.6,323.6 C 1093.6,330.0 1062.8,338.5 1038.5,331.8 C 1014.1,325.2 993.8,300.7 973.5,283.5 C 953.2,266.3 928.5,251.0 916.5,228.7 C 904.5,206.5 900.9,176.0 901.4,150.0 C 901.8,124.0 907.8,95.4 919.4,72.7 C 931.0,49.9 951.1,30.6 971.0,13.4 C 990.9,-3.9 1013.6,-23.0 1038.7,-30.9 C 1063.9,-38.7 1096.8,-41.0 1121.9,-33.7 C 1147.0,-26.4 1169.2,-4.6 1189.3,13.0 C 1209.4,30.5 1233.7,48.8 1242.7,71.6 C 1251.7,94.5 1243.1,123.9 1243.1,150.0 Z"/>
-<path d="M 1277.7,150.0 C 1277.4,181.3 1285.0,215.7 1274.3,243.6 C 1263.6,271.5 1237.6,296.6 1213.5,317.4 C 1189.4,338.2 1160.2,360.5 1129.8,368.2 C 1099.4,375.9 1060.8,373.3 1031.3,363.5 C 1001.8,353.7 975.8,330.1 952.8,309.5 C 929.9,288.8 908.3,266.3 893.7,239.7 C 879.1,213.1 863.8,179.2 865.3,150.0 C 866.8,120.8 888.8,91.9 902.8,64.7 C 916.9,37.5 927.7,5.0 949.7,-13.3 C 971.8,-31.7 1006.2,-40.5 1035.3,-45.7 C 1064.4,-50.8 1096.4,-51.1 1124.3,-44.3 C 1152.3,-37.4 1178.0,-21.2 1203.2,-4.5 C 1228.5,12.1 1263.6,29.9 1276.0,55.6 C 1288.4,81.4 1278.0,118.7 1277.7,150.0 Z"/>
-<path d="M 1313.6,150.0 C 1310.9,185.6 1307.4,221.4 1293.5,252.8 C 1279.6,284.2 1256.4,314.2 1230.2,338.4 C 1204.1,362.6 1170.3,391.7 1136.6,398.0 C 1103.0,404.4 1063.0,386.2 1028.3,376.4 C 993.7,366.7 957.0,359.6 928.8,339.7 C 900.5,319.7 876.2,288.1 858.9,256.5 C 841.7,224.9 826.4,186.0 825.3,150.0 C 824.1,114.0 836.1,73.4 852.1,40.3 C 868.2,7.1 892.4,-28.4 921.5,-48.7 C 950.7,-69.1 991.7,-75.7 1027.1,-81.8 C 1062.5,-88.0 1100.0,-92.9 1133.8,-85.6 C 1167.5,-78.2 1200.4,-58.5 1229.7,-37.7 C 1259.0,-16.8 1295.5,8.2 1309.5,39.5 C 1323.5,70.7 1316.3,114.4 1313.6,150.0 Z"/>
-<path d="M 1370.8,150.0 C 1368.5,189.9 1342.2,231.3 1321.7,266.4 C 1301.1,301.4 1277.9,335.7 1247.7,360.3 C 1217.4,384.8 1178.2,404.8 1140.2,413.7 C 1102.2,422.6 1058.7,421.5 1019.8,413.8 C 980.9,406.0 939.0,390.7 906.9,367.0 C 874.8,343.3 843.7,307.9 827.3,271.7 C 810.9,235.5 806.2,189.4 808.6,150.0 C 811.1,110.6 825.5,71.3 842.0,35.4 C 858.6,-0.5 878.6,-40.1 908.1,-65.6 C 937.6,-91.1 979.9,-107.9 1019.0,-117.5 C 1058.0,-127.0 1101.9,-129.5 1142.3,-122.8 C 1182.7,-116.1 1229.1,-102.3 1261.2,-77.3 C 1293.4,-52.3 1317.0,-10.8 1335.3,27.1 C 1353.5,64.9 1373.1,110.1 1370.8,150.0 Z"/>
-<path d="M 1392.4,150.0 C 1394.7,194.5 1383.2,245.5 1364.1,286.8 C 1344.9,328.1 1313.8,371.9 1277.6,397.8 C 1241.4,423.7 1191.6,430.8 1146.6,442.0 C 1101.7,453.2 1052.4,472.1 1008.1,465.1 C 963.7,458.1 917.0,429.3 880.6,400.1 C 844.1,370.9 809.6,331.6 789.4,289.9 C 769.3,248.2 757.6,195.7 759.7,150.0 C 761.7,104.3 780.4,56.2 801.6,15.9 C 822.9,-24.4 852.0,-65.2 887.2,-91.7 C 922.5,-118.3 969.2,-132.3 1013.0,-143.4 C 1056.9,-154.4 1108.0,-167.7 1150.3,-157.8 C 1192.6,-148.0 1233.6,-114.0 1266.9,-84.3 C 1300.2,-54.7 1329.3,-19.2 1350.2,19.9 C 1371.1,58.9 1390.1,105.5 1392.4,150.0 Z"/>
-<path d="M 210.7,600.0 C 209.8,604.7 207.8,608.1 206.3,612.7 C 204.8,617.2 205.2,625.2 201.7,627.3 C 198.3,629.3 190.2,625.7 185.7,625.0 C 181.2,624.4 178.6,623.8 174.7,623.4 C 170.7,623.0 165.2,624.5 162.0,622.5 C 158.8,620.6 158.4,615.6 155.5,611.8 C 152.5,608.1 144.0,603.8 144.4,600.0 C 144.7,596.2 157.1,596.0 157.6,589.2 C 158.2,582.5 145.5,564.7 147.6,559.4 C 149.7,554.1 163.8,555.3 170.3,557.4 C 176.8,559.5 181.4,569.1 186.4,572.0 C 191.3,574.9 195.8,572.8 200.0,574.9 C 204.2,577.1 209.9,580.6 211.6,584.8 C 213.4,588.9 211.6,595.3 210.7,600.0 Z"/>
-<path d="M 253.7,600.0 C 249.7,611.5 242.4,617.0 239.4,628.6 C 236.4,640.2 242.0,659.2 235.6,669.7 C 229.2,680.2 213.0,690.5 200.9,691.4 C 188.7,692.3 174.4,680.1 162.9,675.0 C 151.4,669.8 138.6,668.4 131.7,660.6 C 124.8,652.8 124.5,638.2 121.7,628.1 C 118.8,618.0 116.0,610.0 114.7,600.0 C 113.5,590.0 110.7,577.5 114.3,568.3 C 117.8,559.2 128.4,554.0 136.1,544.9 C 143.7,535.8 150.5,515.4 160.3,513.7 C 170.1,512.0 185.1,528.3 194.9,534.5 C 204.7,540.7 207.7,546.7 219.1,550.9 C 230.5,555.2 257.5,551.7 263.3,559.9 C 269.0,568.1 257.6,588.5 253.7,600.0 Z"/>
-<path d="M 296.9,600.0 C 293.9,616.6 281.6,630.1 274.3,645.4 C 267.0,660.7 265.2,683.0 253.2,691.8 C 241.2,700.6 219.0,694.6 202.4,698.3 C 185.9,702.0 171.4,713.2 154.0,714.0 C 136.6,714.7 113.0,712.4 98.1,702.7 C 83.3,692.9 71.7,672.5 65.0,655.4 C 58.3,638.3 54.8,617.1 57.7,600.0 C 60.6,582.9 73.6,567.5 82.4,553.0 C 91.1,538.4 98.0,521.9 110.3,512.6 C 122.7,503.4 140.3,503.0 156.6,497.3 C 172.8,491.6 191.7,476.6 207.7,478.4 C 223.8,480.3 238.8,497.3 253.0,508.5 C 267.1,519.7 285.2,530.5 292.6,545.8 C 299.9,561.0 299.9,583.4 296.9,600.0 Z"/>
-<path d="M 328.5,600.0 C 328.3,621.1 318.5,641.6 310.8,663.0 C 303.0,684.3 297.7,711.1 282.2,728.2 C 266.7,745.2 240.9,759.8 217.7,765.3 C 194.6,770.8 166.5,767.3 143.2,761.1 C 119.9,754.9 96.4,743.0 77.9,728.1 C 59.4,713.1 42.0,692.6 32.1,671.2 C 22.1,649.9 15.5,622.4 18.3,600.0 C 21.2,577.6 38.2,557.1 49.1,537.0 C 60.0,516.8 67.4,492.9 83.6,479.2 C 99.9,465.4 125.5,456.8 146.8,454.4 C 168.0,451.9 190.9,458.4 210.9,464.6 C 230.9,470.7 249.7,479.5 266.6,491.4 C 283.5,503.4 302.1,518.1 312.4,536.2 C 322.7,554.3 328.8,578.9 328.5,600.0 Z"/>
-<path d="M 364.3,600.0 C 363.3,629.1 367.8,659.1 358.5,686.0 C 349.3,712.9 331.5,744.9 308.8,761.5 C 286.1,778.1 251.5,779.0 222.3,785.5 C 193.2,792.1 162.8,804.7 134.2,800.8 C 105.5,797.0 73.9,780.9 50.6,762.3 C 27.2,743.8 3.6,716.7 -6.1,689.6 C -15.8,662.6 -11.2,628.2 -7.7,600.0 C -4.1,571.8 2.8,544.5 15.1,520.6 C 27.3,496.7 45.0,473.1 65.7,456.7 C 86.5,440.3 113.6,428.1 139.4,422.3 C 165.2,416.5 193.5,418.0 220.6,422.0 C 247.7,426.1 278.2,431.9 302.2,446.8 C 326.2,461.6 354.2,485.6 364.5,511.1 C 374.9,536.7 365.3,570.9 364.3,600.0 Z"/>
-<path d="M 420.9,600.0 C 419.3,633.9 402.4,668.9 386.6,699.5 C 370.9,730.1 352.0,761.3 326.5,783.6 C 300.9,806.0 265.8,829.0 233.3,833.6 C 200.9,838.2 165.1,819.6 131.8,811.3 C 98.5,803.0 61.9,801.5 33.4,783.8 C 4.9,766.2 -23.6,736.1 -39.0,705.5 C -54.4,674.8 -59.8,634.8 -59.0,600.0 C -58.3,565.2 -50.4,526.6 -34.4,496.7 C -18.4,466.9 9.4,439.2 37.0,420.7 C 64.6,402.2 98.4,394.8 131.1,385.8 C 163.8,376.8 201.7,360.3 233.2,366.7 C 264.7,373.2 293.0,402.8 320.1,424.4 C 347.2,445.9 379.1,466.8 395.9,496.0 C 412.7,525.3 422.4,566.1 420.9,600.0 Z"/>
-<path d="M 463.1,600.0 C 461.8,638.9 438.1,680.3 418.5,714.8 C 398.8,749.3 374.4,780.3 345.1,807.1 C 315.9,833.8 280.5,865.0 242.8,875.2 C 205.1,885.4 156.0,880.6 118.8,868.3 C 81.5,856.0 47.7,827.5 19.5,801.3 C -8.8,775.1 -34.7,744.6 -50.7,711.1 C -66.8,677.6 -73.1,638.8 -76.8,600.0 C -80.6,561.2 -87.1,514.3 -73.1,478.1 C -59.2,441.9 -25.9,404.2 6.8,382.8 C 39.5,361.4 83.7,358.8 122.9,349.8 C 162.1,340.7 203.0,323.8 242.0,328.5 C 280.9,333.3 326.0,353.0 356.7,378.5 C 387.4,404.0 408.3,444.6 426.0,481.5 C 443.7,518.5 464.3,561.1 463.1,600.0 Z"/>
-    </svg>
     <div class="grain"></div>
 
     <div class="pad">
-      <div class="masthead anim" style="animation-delay:.02s">
-        <span>Nabat &nbsp;·&nbsp; Reference Project</span>
-        <span class="r">Environment Agency — Abu Dhabi (EAD)</span>
-      </div>
-      <div class="rule-gold anim" style="animation-delay:.05s"></div>
-
-      <div class="head">
-        <div class="anim" style="animation-delay:.10s">
-          <h1>Technology-enabled mangrove &amp; <em>natural habitat</em> restoration</h1>
-          <div class="lede">Restore and monitor thousands of hectares of mangroves using advanced technologies, with the option of restoring and conserving other natural habitats.</div>
+      <!-- header -->
+      <div class="top anim" style="animation-delay:.02s">
+        <div>
+          <div class="eye">Nabat · Growth &amp; Communications</div>
+          <h1>Marketing dashboard — <em>May 2026</em></h1>
         </div>
-        <div class="region anim" style="animation-delay:.14s">
-          <div class="flag">
-            <span style="background:#00754A"></span>
-            <span style="background:#FAFAF5;border:1px solid var(--rule)"></span>
-            <span style="background:#0A1410"></span>
-            <span style="background:#B5603C"></span>
-          </div>
-          <div class="label">United Arab Emirates</div>
-          <div class="span">2024 – 2033</div>
+        <div class="legend">
+          <span class="lg"><i class="d-ok"></i>On track / meeting target</span>
+          <span class="lg"><i class="d-mon"></i>Monitoring / near pace</span>
+          <span class="lg"><i class="d-bad"></i>Behind target / declining</span>
         </div>
       </div>
 
-      <div class="band anim" style="animation-delay:.20s">
-        <div class="bcell"><div class="k">10<span class="u">-yr</span></div><div class="v">Programme<br>2024–2033</div></div>
-        <div class="bcell"><div class="k">192,744<span class="u"> ha</span></div><div class="v">Mapping &amp; monitoring · total</div></div>
-        <div class="bcell"><div class="k">183.6<span class="u">M</span></div><div class="v">Seeding · total</div></div>
-        <div class="bcell"><div class="k"><span class="pre">AED</span>382,593,860</div><div class="v">Total programme value</div></div>
-      </div>
-      <div class="subline anim" style="animation-delay:.24s">
-        <span class="lab">2026 targets</span>
-        <b>14,400 ha</b> mapping &amp; monitoring &nbsp;·&nbsp; <b>21.6M</b> seeding &nbsp;·&nbsp; <b>AED 42,340,595</b> allocated
-      </div>
+      <div class="quad">
 
-      <div class="cols">
-
-        <div class="col anim" style="animation-delay:.30s">
-          <div class="clabel">Delivery</div>
-
-          <div class="blk">
-            <div class="bttl">Pilot · 2024–2025 <span class="pill ok">Fully delivered</span></div>
-            <ul>
-              <li>Site selection: <b>4,000 ha</b></li>
-              <li>Mangrove restoration &amp; monitoring plan</li>
-              <li>Seeded &amp; mapped: <b>500 ha</b></li>
-            </ul>
-          </div>
-
-          <div class="blk">
-            <div class="bttl">2026 · Progress <span class="pill go">35%</span></div>
-            <ul>
-              <li>Assessment sites selection: <b>14,400 ha</b></li>
-              <li>Site suitability assessment <span class="st">ongoing</span></li>
-              <li class="next">Field surveys <span class="st">next</span></li>
-              <li>Mangrove restoration &amp; monitoring plan <span class="st">ongoing</span></li>
-              <li>Seed sourcing <span class="st">ongoing</span></li>
-              <li>Detailed operation &amp; team deployment plan</li>
-              <li class="next">Seeding <span class="st">next</span></li>
-            </ul>
+        <!-- WEBSITE -->
+        <div class="panel anim" style="animation-delay:.10s">
+          <div class="p-head">Website</div>
+          <div class="cards g2x2">
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Organic sessions</span><span class="dot d-bad"></span></div>
+              <div class="num bad">2,523</div>
+              <div class="va">vs April: 4,524 (−44.2%)</div>
+              <div class="base">Baseline (Jan): 3,199 · <span class="t">MoM tracking</span></div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Website bounce rate</span><span class="dot d-bad"></span></div>
+              <div class="num bad">62.9%</div>
+              <div class="va">vs April: 68.5% (−5.6pp)</div>
+              <div class="base">Baseline (Jan): 62.1% · <span class="t">Target: −10–15%</span></div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab hl">Demo / contact enquiries (YTD)</span><span class="dot d-ok"></span></div>
+              <div class="num ok">10</div>
+              <div class="va">vs April: 1 · tracked since April</div>
+              <div class="base">Baseline (Apr): 1 · <span class="t">Target: 10–20 (Yr 1)</span></div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Leads to proposal (website, YTD)</span><span class="dot d-mon"></span></div>
+              <div class="num mon">2</div>
+              <div class="va">Dnata, Frontend</div>
+              <div class="note">See note below re: Dnata overlap with Events</div>
+            </div>
           </div>
         </div>
 
-        <div class="col anim" style="animation-delay:.36s">
-          <div class="clabel">Key risks &amp; mitigations</div>
-
-          <div class="blk">
-            <div class="bttl">Flight permits</div>
-            <div class="rl"><span class="tag">Risk</span>Inability to obtain flight permits, impacting our ability to deliver the scope on time.</div>
-            <div class="rl"><span class="tag">Mitigation</span>A contingency plan to resolve site-selection and seeding flight restrictions so delivery continues.</div>
-            <div class="sub"><i>Site selection:</i> revised methodology — a new satellite-based model with previously acquired UAV data and field surveys. Reviewed and accepted by EAD for 2026.</div>
-            <div class="sub"><i>Seeding:</i> if flight operations cannot be obtained, manual seed planting by field workers (~2 months before activation). Manual seeding protocol with EAD for approval — ongoing.</div>
-          </div>
-
-          <div class="blk">
-            <div class="bttl">Land availability</div>
-            <div class="rl"><span class="tag">Risk</span>EAD confirms contractual mangrove targets are not attainable due to land unavailability.</div>
-            <div class="rl"><span class="tag">Mitigation</span>Re-assess attainable mangrove targets and move impacted funds into equally important Abu Dhabi ecosystems. With EAD, Nabat integrated arid ecosystem restoration and monitoring — amounts moved from mangrove <b>seeding</b> targets, <b>mapping</b> targets untouched. Approved by EAD; programme scope revision ongoing.</div>
-          </div>
-        </div>
-
-        <div class="col anim" style="animation-delay:.42s">
-          <div class="clabel">Arid restoration &amp; monitoring</div>
-
-          <div class="rl"><span class="tag">Scope</span>Restore and monitor degraded arid ecosystems — including rehabilitation of critical vegetation inside protected areas, and sustainable rangeland.</div>
-          <div class="rl" style="margin-top:7px"><span class="tag">Timeline</span><b>2026 scope signed by EAD</b></div>
-
-          <div class="agrid">
-            <div><div class="n">2,080 ha</div><div class="l">Mapping</div></div>
-            <div><div class="n">1,301 ha</div><div class="l">Seeding</div></div>
-            <div><div class="n">~4.2 t</div><div class="l">Seeds</div></div>
-            <div><div class="n">5,604 ha</div><div class="l">Monitoring</div></div>
-          </div>
-
-          <div class="co">
-            <span class="lab">Change order 2026</span>
-            <span class="val"><span class="pre">AED</span>11,902,809</span>
-          </div>
-
-          <div class="krisk">
-            <span class="tag">Key risk</span>
-            Flight operations restrictions, Dec 2026 – Jan 2027 (even when operating at 5–10 m altitude).
+        <!-- ORGANIC SOCIAL -->
+        <div class="panel anim" style="animation-delay:.16s">
+          <div class="p-head">Organic social (LinkedIn channel)</div>
+          <div class="cards g2x2">
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Followers</span><span class="dot d-ok"></span></div>
+              <div class="num ok">37,930</div>
+              <div class="va">vs April: 36,826 (+3.0%)</div>
+              <div class="base">Baseline (Jan): 27,680 · <span class="t">Target: +60% / yr</span></div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Engagement rate</span><span class="dot d-ok"></span></div>
+              <div class="num ok">27%</div>
+              <div class="va">vs April: 33% (−6pp)</div>
+              <div class="base">Baseline (Jan): 10.6% · <span class="t">Target: ~4–6%</span></div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Posts</span><span class="dot d-ok"></span></div>
+              <div class="num ok">13</div>
+              <div class="va">vs April: 3</div>
+              <div class="base">Baseline (Jan): 20 · <span class="t">Target: ≥12 / month</span></div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Social-sourced enquiries (YTD)</span><span class="dot d-ok"></span></div>
+              <div class="num ok">2</div>
+              <div class="va">First tracked figure (May)</div>
+              <div class="base">Baseline (May): tracking went live · <span class="t">Target: ≥12 / yr</span></div>
+            </div>
           </div>
         </div>
 
-      </div>
+        <!-- PR & COMMS -->
+        <div class="panel anim" style="animation-delay:.22s">
+          <div class="p-head">PR &amp; comms</div>
+          <div class="cards g2x2">
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Tier-1 PR secured (YTD)</span><span class="dot d-mon"></span></div>
+              <div class="num mon">1</div>
+              <div class="va">The National (Jan) · more in pipeline for H2</div>
+              <div class="base">Baseline (Jan): 1 · <span class="t">Target: ≥3</span></div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Total PR secured (YTD)</span><span class="dot d-ok"></span></div>
+              <div class="num ok">8</div>
+              <div class="va">MENA Tech (×3), SourceCode, WIRED ME, ITP.Net, MIITE, The National</div>
+              <div class="base"><span class="t">Target: ≥8 — met</span></div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab">Leadership commentary requests</span><span class="dot d-ok"></span></div>
+              <div class="num ok">5</div>
+              <div class="va">May figure; 9 in Jan, 17 total Jan–May</div>
+              <div class="base">vs April: 1 · cumulative requests, not unique outlets</div>
+            </div>
+            <div class="card">
+              <div class="c-top"><span class="c-lab">PR placements in progress</span><span class="dot d-mon"></span></div>
+              <div class="num mon">2</div>
+              <div class="va">Pipeline coverage pending confirmation</div>
+              <div class="base">Status: monitoring for conversion</div>
+            </div>
+          </div>
+        </div>
 
-      <div class="foot anim" style="animation-delay:.50s">
-        <span class="brand"><b>nabat</b> — the operating system for nature</span>
-        <span>Confidential &nbsp;·&nbsp; nabat.ai</span>
+        <!-- EVENTS -->
+        <div class="panel anim" style="animation-delay:.28s">
+          <div class="p-head">Events — YTD vs. annual target</div>
+          <div class="cards g-ev">
+            <div class="ev3">
+              <div class="card">
+                <div class="c-top"><span class="c-lab">Exhibit</span><span class="dot d-ok"></span></div>
+                <div class="num ok of">3 <span class="sm">of 7</span></div>
+                <div class="va">vs target ≥7 / yr</div>
+              </div>
+              <div class="card">
+                <div class="c-top"><span class="c-lab">Speaker</span><span class="dot d-ok"></span></div>
+                <div class="num ok">5</div>
+                <div class="va">vs target 2–4 / yr</div>
+              </div>
+              <div class="card">
+                <div class="c-top"><span class="c-lab">Attend (total)</span><span class="dot d-ok"></span></div>
+                <div class="num ok of">5 <span class="sm">of 10</span></div>
+                <div class="va">vs target ≥10 / yr</div>
+              </div>
+            </div>
+            <div class="card ev-wide">
+              <div class="c-top"><span class="c-lab">Leads to proposal (event-sourced) — YTD</span><span class="dot d-ok"></span></div>
+              <div class="ev-wide-body">
+                <div class="num ok">3</div>
+                <div class="ev-src">
+                  Aramco (Jan, via WFES), Dnata + Seaworld (Feb)<br>
+                  <b>Target: ≥3 / yr — already met</b>
+                </div>
+              </div>
+            </div>
+            <div class="foot-note">
+              “Attend” counts total physical presence at an event (exhibited or delegate-only) — 3 of 5 attended events were also exhibited. “Speaker” counts individual speaking appearances across the year. Leads to proposal are tracked separately by source (website vs. events) — Dnata appears on both lists and needs confirming as one client or two distinct opportunities.
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
