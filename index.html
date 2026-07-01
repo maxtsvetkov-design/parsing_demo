@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>nabat — Variation Order</title>
+<title>nabat — OKRs 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,16 +11,16 @@
   :root{
     --paper:#FAFAF5; --ink:#0A1410; --ink-soft:#1C2A23; --ink-muted:#4A5A50;
     --brand:#246C5F; --brand-dk:#0D482E; --gold:#B89968; --gold-bright:#D4B577;
-    --rule:#B8A87E; --terra:#B5603C;
+    --rule:#B8A87E;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{width:100%;height:100%;background:#11140f;overflow:hidden;
     display:flex;align-items:center;justify-content:center;font-family:'Poppins',system-ui,sans-serif}
-  #stage{width:1280px;height:720px;transform-origin:center center}
+  #stage{width:1280px;height:720px;transform-origin:center center;overflow-y:auto}
 
-  .slide{position:relative;width:1280px;height:720px;overflow:auto;
+  .slide{position:relative;width:1280px;min-height:720px;
     background:linear-gradient(135deg, var(--paper) 0%, #F5F1E8 50%, var(--paper) 100%);
-    color:var(--ink)}
+    color:var(--ink);padding-bottom:40px}
   .grid{position:absolute;inset:0;pointer-events:none;opacity:.3;
     background-image:
       linear-gradient(to right, rgba(11,31,23,.02) 1px, transparent 1px),
@@ -32,98 +32,68 @@
     background:radial-gradient(1200px 700px at 85% 10%, rgba(36,108,95,.04), transparent 50%),
     radial-gradient(900px 600px at 8% 92%, rgba(184,153,104,.05), transparent 55%)}
 
-  .pad{position:absolute;inset:0;padding:28px 36px;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
+  .pad{position:relative;padding:32px 40px;display:flex;flex-direction:column;z-index:1}
 
-  h1{font-family:'Poppins';font-weight:800;font-size:48px;line-height:1.1;
-    letter-spacing:-.015em;color:var(--ink);margin-bottom:14px;
-    background:linear-gradient(135deg, var(--ink) 0%, var(--brand-dk) 100%);
+  .header{margin-bottom:24px}
+  h1{font-family:'Poppins';font-weight:800;font-size:52px;line-height:1;
+    letter-spacing:-.015em;color:var(--ink);background:linear-gradient(135deg, var(--ink) 0%, var(--brand-dk) 100%);
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  
-  .subtitle{font-family:'Poppins';font-size:16px;font-weight:500;line-height:1.6;
-    color:var(--ink-soft);margin-bottom:22px;opacity:.9}
 
-  .section-label{font-family:'Poppins';font-size:10px;font-weight:700;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--gold);margin-bottom:10px;opacity:.85}
+  .grid-2col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 
-  /* Grid section */
-  .grid-wrap{margin-bottom:24px;position:relative;z-index:2}
-  .grid-title{font-family:'Poppins';font-size:18px;font-weight:800;line-height:1.2;
-    letter-spacing:-.01em;color:var(--ink);margin-bottom:14px;display:flex;align-items:baseline;gap:10px}
-  .grid-title .label{font-size:11px;font-weight:700;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--gold);opacity:.8}
-  .grid-title .scope{font-weight:800;color:var(--brand-dk)}
-  .grid-title .sub{font-size:14px;font-weight:400;color:var(--ink-muted)}
-
-  .grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:1px;
-    border:1.5px solid rgba(184,168,126,.4);border-radius:10px;overflow:hidden;
-    box-shadow:0 2px 12px rgba(10,20,16,.06)}
-  
-  .grid-cell{background:linear-gradient(135deg, #FEFDFB 0%, var(--paper) 100%);
-    padding:18px;border-right:1px solid rgba(184,168,126,.3);border-bottom:1px solid rgba(184,168,126,.3);
-    transition:all .4s cubic-bezier(.34,.1,.68,.55);position:relative}
-  .grid-cell:nth-child(2n){border-right:none}
-  .grid-cell:nth-child(n+3){border-bottom:none}
-  .grid-cell::before{content:'';position:absolute;inset:0;
-    background:radial-gradient(circle at top-right, rgba(184,153,104,.08), transparent 70%);
+  .okr-box{position:relative;background:linear-gradient(135deg, #FEFDFB 0%, var(--paper) 100%);
+    border:1.5px solid rgba(184,168,126,.4);border-radius:12px;padding:18px;
+    transition:all .4s cubic-bezier(.34,.1,.68,.55);overflow:hidden;
+    box-shadow:0 2px 12px rgba(10,20,16,.06), inset 0 1px 0 rgba(255,255,255,.5)}
+  .okr-box::before{content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at top-right, rgba(184,153,104,.1), transparent 70%);
     opacity:0;transition:opacity .4s ease;pointer-events:none}
-  .grid-cell:hover{background:linear-gradient(135deg, #FFFEFE 0%, #FAFAF5 100%);
-    border-color:rgba(36,108,95,.5);transform:scale(1.02)}
-  .grid-cell:hover::before{opacity:1}
+  .okr-box:hover{transform:translateY(-4px);border-color:var(--brand);
+    box-shadow:0 8px 24px rgba(36,108,95,.12), inset 0 1px 0 rgba(255,255,255,.8);
+    background:linear-gradient(135deg, #FFFEFE 0%, #FAFAF5 100%)}
+  .okr-box:hover::before{opacity:1}
 
-  .grid-value{font-family:'Poppins';font-size:36px;font-weight:800;
-    letter-spacing:-.015em;color:var(--gold);margin-bottom:8px;font-style:italic;
-    font-variant-numeric:tabular-nums}
-  .grid-label{font-family:'Poppins';font-size:12px;font-weight:700;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--brand-dk)}
+  .okr-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+    margin-bottom:12px;position:relative;z-index:2}
+  .okr-title{font-family:'Poppins';font-size:16px;font-weight:800;font-style:italic;
+    letter-spacing:-.01em;color:var(--gold);line-height:1.2}
+  .theme-tag{background:var(--brand-dk);color:#fff;padding:4px 9px;border-radius:16px;
+    font-family:'Poppins';font-size:8px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;white-space:nowrap;flex:0 0 auto;
+    box-shadow:0 2px 6px rgba(13,72,46,.25)}
 
-  /* Bottom section */
-  .bottom-section{position:relative;z-index:2;display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+  .okr-content{position:relative;z-index:2}
+  .okr-desc{font-family:'Poppins';font-size:13.5px;line-height:1.65;color:var(--ink-soft);
+    font-weight:500;letter-spacing:.01em}
+  .okr-desc strong{font-weight:700;color:var(--ink)}
 
-  .change-order{background:linear-gradient(135deg, rgba(184,153,104,.08) 0%, rgba(36,108,95,.04) 100%);
-    border:1.5px solid rgba(184,168,126,.4);border-radius:10px;padding:16px;
-    transition:all .4s cubic-bezier(.34,.1,.68,.55)}
-  .change-order:hover{border-color:var(--brand);box-shadow:0 6px 16px rgba(36,108,95,.1)}
-
-  .co-label{font-family:'Poppins';font-size:10.5px;font-weight:700;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
-  .co-content{display:flex;align-items:baseline;gap:10px}
-  .co-text{font-family:'Poppins';font-size:16px;font-weight:700;letter-spacing:.02em;
-    color:var(--ink)}
-  .co-amount{font-family:'Poppins';font-size:22px;font-weight:800;letter-spacing:-.01em;
-    color:var(--brand-dk);font-variant-numeric:tabular-nums}
-  .co-currency{font-family:'Poppins';font-size:11px;font-weight:700;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--gold)}
-
-  .risk{background:linear-gradient(135deg, rgba(181,96,60,.06) 0%, rgba(181,96,60,.02) 100%);
-    border:1.5px solid rgba(181,96,60,.3);border-radius:10px;padding:16px;
-    transition:all .4s cubic-bezier(.34,.1,.68,.55)}
-  .risk:hover{border-color:var(--terra);box-shadow:0 6px 16px rgba(181,96,60,.1)}
-
-  .risk-label{font-family:'Poppins';font-size:9.5px;font-weight:700;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--terra);margin-bottom:8px;opacity:.9}
-  .risk-text{font-family:'Poppins';font-size:15px;font-weight:600;line-height:1.55;
-    color:var(--ink-soft);letter-spacing:.01em}
-
-  .status-badge{display:inline-block;background:var(--brand-dk);color:#fff;
-    padding:4px 10px;border-radius:20px;font-family:'Poppins';font-size:9px;
-    font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-    margin-top:10px;box-shadow:0 2px 6px rgba(13,72,46,.25)}
-
-  .foot{position:absolute;bottom:22px;right:36px;font-family:'Poppins';font-size:8.5px;
+  .foot{position:fixed;bottom:22px;right:40px;font-family:'Poppins';font-size:8.5px;
     font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rule);
-    opacity:.6}
+    opacity:.6;z-index:10}
 
   @keyframes slideInDown{from{opacity:0;transform:translateY(-25px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   h1{animation:slideInDown .8s cubic-bezier(.34,.1,.68,.55) forwards}
-  .subtitle{opacity:0;animation:fadeInUp .8s cubic-bezier(.34,.1,.68,.55) forwards;animation-delay:.1s}
-  .grid-wrap{opacity:0;animation:fadeInUp .8s cubic-bezier(.34,.1,.68,.55) forwards;animation-delay:.2s}
-  .bottom-section{opacity:0;animation:fadeInUp .8s cubic-bezier(.34,.1,.68,.55) forwards;animation-delay:.3s}
+  .okr-box{opacity:0;animation:fadeInUp .7s cubic-bezier(.34,.1,.68,.55) forwards}
+  .okr-box:nth-child(1){animation-delay:.1s}
+  .okr-box:nth-child(2){animation-delay:.15s}
+  .okr-box:nth-child(3){animation-delay:.2s}
+  .okr-box:nth-child(4){animation-delay:.25s}
+  .okr-box:nth-child(5){animation-delay:.3s}
+  .okr-box:nth-child(6){animation-delay:.35s}
+  .okr-box:nth-child(7){animation-delay:.4s}
+  .okr-box:nth-child(8){animation-delay:.45s}
+  .okr-box:nth-child(9){animation-delay:.5s}
+  .okr-box:nth-child(10){animation-delay:.55s}
+  .okr-box:nth-child(11){animation-delay:.6s}
+  .okr-box:nth-child(12){animation-delay:.65s}
 
   @media(max-height:850px){
-    .pad{padding:20px 36px}
-    h1{font-size:40px;margin-bottom:10px}
-    .subtitle{font-size:14px;margin-bottom:16px}
+    .pad{padding:22px 40px}
+    h1{font-size:44px}
+    .okr-box{padding:15px}
+    .okr-title{font-size:14px}
+    .okr-desc{font-size:12px}
   }
 </style>
 </head>
@@ -135,51 +105,119 @@
     <div class="grain"></div>
 
     <div class="pad">
-      <h1>Variation Order <span style="color:var(--ink-muted);font-weight:600">|</span> Arid Restoration &amp; Monitoring</h1>
-      
-      <p class="subtitle">Restore &amp; monitor grid habitats supporting the following initiatives (Fight desertification, Rehabilitate critical vegetation in protected areas)</p>
-
-      <div class="grid-wrap">
-        <div class="grid-title">
-          <span class="label">Timeline</span>
-          <span class="scope">2026 scope</span>
-          <span class="sub">(signed by EAD)</span>
-        </div>
-        
-        <div class="grid-2x2">
-          <div class="grid-cell">
-            <div class="grid-value">2,080</div>
-            <div class="grid-label">Mapping <span style="color:var(--rule)">ha</span></div>
-          </div>
-          <div class="grid-cell">
-            <div class="grid-value">1,301</div>
-            <div class="grid-label">Seeding <span style="color:var(--rule)">ha</span></div>
-          </div>
-          <div class="grid-cell">
-            <div class="grid-value">~4.2</div>
-            <div class="grid-label">Native Seeds <span style="color:var(--rule)">Tons</span></div>
-          </div>
-          <div class="grid-cell">
-            <div class="grid-value">5,604</div>
-            <div class="grid-label">Monitoring <span style="color:var(--rule)">ha</span></div>
-          </div>
-        </div>
+      <div class="header">
+        <h1>2026 OKRs</h1>
       </div>
 
-      <div class="bottom-section">
-        <div class="change-order">
-          <div class="co-label">Change Order 2026 — Funds Re-allocation</div>
-          <div class="co-content">
-            <span class="co-currency">AED</span>
-            <span class="co-amount">11,902,809</span>
+      <div class="grid-2col">
+        <!-- Financials 1 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Financials</div>
+            <div class="theme-tag">Growth</div>
           </div>
-          <div class="status-badge">✓ Signed</div>
+          <div class="okr-content">
+            <div class="okr-desc">Achieve <strong>Order Intake = ≥AED40Mn</strong>, <strong>Revenue = ≥AED60Mn</strong> & <strong>Net Profit Margin ≥ -AED 20.6Mn</strong> in 2026</div>
+          </div>
         </div>
 
-        <div class="risk">
-          <div class="risk-label">⚠ Risk</div>
-          <div class="risk-text">Flight Ops restrictions during Dec. 2026 – Jan. 2027 period</div>
-          <div class="status-badge" style="background:var(--terra)">Active Risk</div>
+        <!-- Financials 2 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Financials</div>
+            <div class="theme-tag">Funding</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc"><strong>Close 1 funding transaction</strong></div>
+          </div>
+        </div>
+
+        <!-- Delivery 1 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Delivery</div>
+            <div class="theme-tag">Operations</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc">Achieve <strong>100% on-time delivery across contractual milestones</strong> within company-level budget</div>
+          </div>
+        </div>
+
+        <!-- Delivery 2 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Delivery (EAD program)</div>
+            <div class="theme-tag">Compliance</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc"><strong>Validate revised scope of EAD contract to ensure 100% of invoices are collected</strong> for 2026 and beyond</div>
+          </div>
+        </div>
+
+        <!-- Product & Offering 1 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Product &amp; Offering</div>
+            <div class="theme-tag">Innovation</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc">Build &amp; customer validate <strong>3 new use cases to drive recurring value</strong> to the platform</div>
+          </div>
+        </div>
+
+        <!-- Product & Offering 2 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Product &amp; Offering</div>
+            <div class="theme-tag">Tech</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc"><strong>Launch V1 of Mangrove Cabon MRV platform</strong> &amp; have carbon estimation methodology achieve compliance from at least 1 verification standard</div>
+          </div>
+        </div>
+
+        <!-- Product & Offering 3 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Product &amp; Offering</div>
+            <div class="theme-tag">Revenue</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc">Achieve <strong>platform recurring revenue = ≥20% of total order</strong> intake by EOY 2026</div>
+          </div>
+        </div>
+
+        <!-- Commercial 1 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Commercial</div>
+            <div class="theme-tag">Business Dev</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc"><strong>Secure ≥2 accepted pilot or paying engagements</strong> outside the GCC</div>
+          </div>
+        </div>
+
+        <!-- Commercial 2 -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Commercial</div>
+            <div class="theme-tag">Delivery</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc">(When commercially secured) <strong>Deliver ≥1 grid seeding pilot project</strong> with scale blueprint (incl. unit economics model, delivery workflow, Partners…)</div>
+          </div>
+        </div>
+
+        <!-- Leadership -->
+        <div class="okr-box">
+          <div class="okr-head">
+            <div class="okr-title">Leadership</div>
+            <div class="theme-tag">Governance</div>
+          </div>
+          <div class="okr-content">
+            <div class="okr-desc"><strong>Establish a Board of Advisors with ≥2 high-caliber members</strong> by EOY 2026</div>
+          </div>
         </div>
       </div>
 
