@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>nabat — What's next</title>
+<title>nabat — Variation Order</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
     display:flex;align-items:center;justify-content:center;font-family:'Poppins',system-ui,sans-serif}
   #stage{width:1280px;height:720px;transform-origin:center center}
 
-  .slide{position:relative;width:1280px;height:720px;overflow:hidden;
+  .slide{position:relative;width:1280px;height:720px;overflow:auto;
     background:linear-gradient(135deg, var(--paper) 0%, #F5F1E8 50%, var(--paper) 100%);
     color:var(--ink)}
   .grid{position:absolute;inset:0;pointer-events:none;opacity:.3;
@@ -32,65 +32,98 @@
     background:radial-gradient(1200px 700px at 85% 10%, rgba(36,108,95,.04), transparent 50%),
     radial-gradient(900px 600px at 8% 92%, rgba(184,153,104,.05), transparent 55%)}
 
-  .pad{position:absolute;inset:0;padding:32px 40px;display:flex;flex-direction:column}
+  .pad{position:absolute;inset:0;padding:28px 36px;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
 
-  .header{margin-bottom:20px;position:relative;z-index:2}
-  .breadcrumb{font-family:'Poppins';font-size:10.5px;font-weight:700;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--brand);margin-bottom:10px;opacity:.85;
-    text-shadow:0 2px 4px rgba(10,20,16,.02)}
-  h1{font-family:'Poppins';font-weight:800;font-size:64px;line-height:1;
-    letter-spacing:-.02em;color:var(--ink);background:linear-gradient(135deg, var(--ink) 0%, var(--brand-dk) 100%);
+  h1{font-family:'Poppins';font-weight:800;font-size:48px;line-height:1.1;
+    letter-spacing:-.015em;color:var(--ink);margin-bottom:14px;
+    background:linear-gradient(135deg, var(--ink) 0%, var(--brand-dk) 100%);
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  
+  .subtitle{font-family:'Poppins';font-size:16px;font-weight:500;line-height:1.6;
+    color:var(--ink-soft);margin-bottom:22px;opacity:.9}
 
-  .grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:18px;flex:1;position:relative;z-index:1}
+  .section-label{font-family:'Poppins';font-size:10px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:10px;opacity:.85}
 
-  .section{position:relative;background:var(--paper);border:1px solid rgba(184,168,126,.4);
-    border-radius:14px;padding:0;overflow:hidden;
-    box-shadow:0 2px 8px rgba(10,20,16,.04), inset 0 1px 0 rgba(255,255,255,.5);
-    transition:all .4s cubic-bezier(.34,.1,.68,.55);
-    cursor:pointer}
-  .section::before{content:'';position:absolute;inset:0;background:
-    linear-gradient(135deg, rgba(36,108,95,.02) 0%, transparent 40%, rgba(184,153,104,.01) 100%);
-    pointer-events:none}
-  .section::after{content:'';position:absolute;top:-50%;right:-50%;width:300%;height:300%;
-    background:radial-gradient(circle, rgba(184,153,104,.15) 0%, transparent 70%);
-    opacity:0;transition:opacity .6s ease;pointer-events:none}
-  .section:hover{transform:translateY(-6px);border-color:var(--brand);
-    box-shadow:0 12px 32px rgba(36,108,95,.15), inset 0 1px 0 rgba(255,255,255,.8);
-    background:linear-gradient(135deg, #FEFDFB 0%, var(--paper) 100%)}
-  .section:hover::after{opacity:1}
+  /* Grid section */
+  .grid-wrap{margin-bottom:24px;position:relative;z-index:2}
+  .grid-title{font-family:'Poppins';font-size:18px;font-weight:800;line-height:1.2;
+    letter-spacing:-.01em;color:var(--ink);margin-bottom:14px;display:flex;align-items:baseline;gap:10px}
+  .grid-title .label{font-size:11px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gold);opacity:.8}
+  .grid-title .scope{font-weight:800;color:var(--brand-dk)}
+  .grid-title .sub{font-size:14px;font-weight:400;color:var(--ink-muted)}
 
-  .s-head-wrap{background:linear-gradient(135deg, rgba(36,108,95,.08) 0%, rgba(184,153,104,.04) 100%);
-    padding:16px 18px;border-bottom:1px solid rgba(184,168,126,.3);position:relative;z-index:2}
-  .s-head{font-family:'Poppins';font-size:14.5px;font-weight:800;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--brand-dk);display:flex;align-items:center;gap:10px}
-  .s-head::before{content:'';width:4px;height:12px;background:linear-gradient(to bottom, var(--gold), var(--gold-bright));
-    border-radius:2px;box-shadow:0 2px 6px rgba(184,153,104,.3)}
+  .grid-2x2{display:grid;grid-template-columns:1fr 1fr;gap:1px;
+    border:1.5px solid rgba(184,168,126,.4);border-radius:10px;overflow:hidden;
+    box-shadow:0 2px 12px rgba(10,20,16,.06)}
+  
+  .grid-cell{background:linear-gradient(135deg, #FEFDFB 0%, var(--paper) 100%);
+    padding:18px;border-right:1px solid rgba(184,168,126,.3);border-bottom:1px solid rgba(184,168,126,.3);
+    transition:all .4s cubic-bezier(.34,.1,.68,.55);position:relative}
+  .grid-cell:nth-child(2n){border-right:none}
+  .grid-cell:nth-child(n+3){border-bottom:none}
+  .grid-cell::before{content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at top-right, rgba(184,153,104,.08), transparent 70%);
+    opacity:0;transition:opacity .4s ease;pointer-events:none}
+  .grid-cell:hover{background:linear-gradient(135deg, #FFFEFE 0%, #FAFAF5 100%);
+    border-color:rgba(36,108,95,.5);transform:scale(1.02)}
+  .grid-cell:hover::before{opacity:1}
 
-  .s-items{padding:16px 18px;position:relative;z-index:2}
-  .s-item{margin-bottom:13px;display:flex;gap:11px;font-size:14px;line-height:1.72;
-    color:var(--ink-soft);font-weight:500}
-  .s-item:last-child{margin-bottom:0}
-  .bullet{width:7px;height:7px;background:linear-gradient(135deg, var(--brand), var(--brand-dk));
-    border-radius:50%;flex:0 0 auto;margin-top:6px;box-shadow:0 2px 4px rgba(13,72,46,.2)}
-  .s-text{flex:1;opacity:.95;transition:opacity .3s ease}
-  .s-item:hover .s-text{opacity:1;color:var(--ink)}
+  .grid-value{font-family:'Poppins';font-size:36px;font-weight:800;
+    letter-spacing:-.015em;color:var(--gold);margin-bottom:8px;font-style:italic;
+    font-variant-numeric:tabular-nums}
+  .grid-label{font-family:'Poppins';font-size:12px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--brand-dk)}
 
-  .foot{position:absolute;bottom:26px;right:40px;font-family:'Poppins';font-size:9px;
+  /* Bottom section */
+  .bottom-section{position:relative;z-index:2;display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+
+  .change-order{background:linear-gradient(135deg, rgba(184,153,104,.08) 0%, rgba(36,108,95,.04) 100%);
+    border:1.5px solid rgba(184,168,126,.4);border-radius:10px;padding:16px;
+    transition:all .4s cubic-bezier(.34,.1,.68,.55)}
+  .change-order:hover{border-color:var(--brand);box-shadow:0 6px 16px rgba(36,108,95,.1)}
+
+  .co-label{font-family:'Poppins';font-size:10.5px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+  .co-content{display:flex;align-items:baseline;gap:10px}
+  .co-text{font-family:'Poppins';font-size:16px;font-weight:700;letter-spacing:.02em;
+    color:var(--ink)}
+  .co-amount{font-family:'Poppins';font-size:22px;font-weight:800;letter-spacing:-.01em;
+    color:var(--brand-dk);font-variant-numeric:tabular-nums}
+  .co-currency{font-family:'Poppins';font-size:11px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--gold)}
+
+  .risk{background:linear-gradient(135deg, rgba(181,96,60,.06) 0%, rgba(181,96,60,.02) 100%);
+    border:1.5px solid rgba(181,96,60,.3);border-radius:10px;padding:16px;
+    transition:all .4s cubic-bezier(.34,.1,.68,.55)}
+  .risk:hover{border-color:var(--terra);box-shadow:0 6px 16px rgba(181,96,60,.1)}
+
+  .risk-label{font-family:'Poppins';font-size:9.5px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--terra);margin-bottom:8px;opacity:.9}
+  .risk-text{font-family:'Poppins';font-size:15px;font-weight:600;line-height:1.55;
+    color:var(--ink-soft);letter-spacing:.01em}
+
+  .status-badge{display:inline-block;background:var(--brand-dk);color:#fff;
+    padding:4px 10px;border-radius:20px;font-family:'Poppins';font-size:9px;
+    font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    margin-top:10px;box-shadow:0 2px 6px rgba(13,72,46,.25)}
+
+  .foot{position:absolute;bottom:22px;right:36px;font-family:'Poppins';font-size:8.5px;
     font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rule);
     opacity:.6}
 
+  @keyframes slideInDown{from{opacity:0;transform:translateY(-25px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes slideInLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
-  .header{animation:slideInLeft .8s cubic-bezier(.34,.1,.68,.55) forwards}
-  .section{opacity:0;animation:fadeInUp .7s cubic-bezier(.34,.1,.68,.55) forwards}
-  .section:nth-child(1){animation-delay:.12s}
-  .section:nth-child(2){animation-delay:.24s}
-  .section:nth-child(3){animation-delay:.32s}
-  .section:nth-child(4){animation-delay:.44s}
+  h1{animation:slideInDown .8s cubic-bezier(.34,.1,.68,.55) forwards}
+  .subtitle{opacity:0;animation:fadeInUp .8s cubic-bezier(.34,.1,.68,.55) forwards;animation-delay:.1s}
+  .grid-wrap{opacity:0;animation:fadeInUp .8s cubic-bezier(.34,.1,.68,.55) forwards;animation-delay:.2s}
+  .bottom-section{opacity:0;animation:fadeInUp .8s cubic-bezier(.34,.1,.68,.55) forwards;animation-delay:.3s}
 
-  @media(hover:none){
-    .section:active{transform:translateY(-3px);border-color:var(--brand)}
+  @media(max-height:850px){
+    .pad{padding:20px 36px}
+    h1{font-size:40px;margin-bottom:10px}
+    .subtitle{font-size:14px;margin-bottom:16px}
   }
 </style>
 </head>
@@ -102,94 +135,51 @@
     <div class="grain"></div>
 
     <div class="pad">
-      <div class="header">
-        <div class="breadcrumb">Marketing and Communications · In progress for Nikki</div>
-        <h1>What's next</h1>
+      <h1>Variation Order <span style="color:var(--ink-muted);font-weight:600">|</span> Arid Restoration &amp; Monitoring</h1>
+      
+      <p class="subtitle">Restore &amp; monitor grid habitats supporting the following initiatives (Fight desertification, Rehabilitate critical vegetation in protected areas)</p>
+
+      <div class="grid-wrap">
+        <div class="grid-title">
+          <span class="label">Timeline</span>
+          <span class="scope">2026 scope</span>
+          <span class="sub">(signed by EAD)</span>
+        </div>
+        
+        <div class="grid-2x2">
+          <div class="grid-cell">
+            <div class="grid-value">2,080</div>
+            <div class="grid-label">Mapping <span style="color:var(--rule)">ha</span></div>
+          </div>
+          <div class="grid-cell">
+            <div class="grid-value">1,301</div>
+            <div class="grid-label">Seeding <span style="color:var(--rule)">ha</span></div>
+          </div>
+          <div class="grid-cell">
+            <div class="grid-value">~4.2</div>
+            <div class="grid-label">Native Seeds <span style="color:var(--rule)">Tons</span></div>
+          </div>
+          <div class="grid-cell">
+            <div class="grid-value">5,604</div>
+            <div class="grid-label">Monitoring <span style="color:var(--rule)">ha</span></div>
+          </div>
+        </div>
       </div>
 
-      <div class="grid-2x2">
-        <!-- Website -->
-        <div class="section">
-          <div class="s-head-wrap">
-            <div class="s-head">Website</div>
+      <div class="bottom-section">
+        <div class="change-order">
+          <div class="co-label">Change Order 2026 — Funds Re-allocation</div>
+          <div class="co-content">
+            <span class="co-currency">AED</span>
+            <span class="co-amount">11,902,809</span>
           </div>
-          <div class="s-items">
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">SEO improvement push during Q3 to grow organic search and reduce reliance on direct traffic.</div>
-            </div>
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Insights page user experience improvement, including content tagging for better tracking and insights.</div>
-            </div>
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Add more product-specific content across the site.</div>
-            </div>
-          </div>
+          <div class="status-badge">✓ Signed</div>
         </div>
 
-        <!-- Organic Social -->
-        <div class="section">
-          <div class="s-head-wrap">
-            <div class="s-head">Organic Social (LinkedIn)</div>
-          </div>
-          <div class="s-items">
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Improve followers with more intentional, targeted messaging.</div>
-            </div>
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Launch paid social activity to targeted accounts, working closely with business development.</div>
-            </div>
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Develop social as a lead-generation engine, on par with the website, to drive engagement and enquiries.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Events -->
-        <div class="section">
-          <div class="s-head-wrap">
-            <div class="s-head">Events</div>
-          </div>
-          <div class="s-items">
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Strengthen lead-to-sales management and business development tracking for event-sourced leads.</div>
-            </div>
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Support upcoming flagship events, including COP31 and the UN Water Conference.</div>
-            </div>
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Build a structured post-event follow-up cadence to convert delegate and exhibit leads faster, in collaboration with BD.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PR & Comms -->
-        <div class="section">
-          <div class="s-head-wrap">
-            <div class="s-head">PR &amp; Comms</div>
-          </div>
-          <div class="s-items">
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Start tracking PR return on investment and weighting by outlet tier and reach.</div>
-            </div>
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Convert the 2 in-progress placements and build on H2 Tier-1 pipeline.</div>
-            </div>
-            <div class="s-item">
-              <div class="bullet"></div>
-              <div class="s-text">Formalize a reactive / rapid-response protocol for press inquiries.</div>
-            </div>
-          </div>
+        <div class="risk">
+          <div class="risk-label">⚠ Risk</div>
+          <div class="risk-text">Flight Ops restrictions during Dec. 2026 – Jan. 2027 period</div>
+          <div class="status-badge" style="background:var(--terra)">Active Risk</div>
         </div>
       </div>
 
